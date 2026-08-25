@@ -1,6 +1,6 @@
 import { clearGrid, createEmptyGrid, type Grid } from "./grid";
 import { syncStepVisuals } from "./grid-visuals";
-import { applyPreset, pickRandomPreset } from "./presets";
+import { applyPreset, pickRandomPreset, type Preset } from "./presets";
 import { Scheduler } from "./scheduler";
 
 const DEFAULT_BPM = 120;
@@ -53,8 +53,10 @@ clearButton?.addEventListener("click", () => {
   syncStepVisuals(grid);
 });
 
+let lastPreset: Preset | undefined;
 randomGrooveButton?.addEventListener("click", () => {
-  applyPreset(grid, pickRandomPreset());
+  lastPreset = pickRandomPreset(Math.random, lastPreset);
+  applyPreset(grid, lastPreset);
   syncStepVisuals(grid);
 });
 

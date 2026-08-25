@@ -54,8 +54,14 @@ export function applyPreset(grid: Grid, preset: Preset): void {
   }
 }
 
-/** Picks one built-in preset uniformly at random. rng is injectable so tests can cover every preset deterministically. */
-export function pickRandomPreset(rng: () => number = Math.random): Preset {
-  const index = Math.floor(rng() * PRESETS.length);
-  return PRESETS[index];
+/**
+ * Picks one built-in preset uniformly at random. rng is injectable so tests
+ * can cover every preset deterministically. Pass the previously-loaded
+ * preset as `exclude` to guarantee two consecutive picks never match —
+ * callers use this to keep the random-groove button from repeating itself.
+ */
+export function pickRandomPreset(rng: () => number = Math.random, exclude?: Preset): Preset {
+  const options = exclude ? PRESETS.filter((preset) => preset !== exclude) : PRESETS;
+  const index = Math.floor(rng() * options.length);
+  return options[index];
 }
