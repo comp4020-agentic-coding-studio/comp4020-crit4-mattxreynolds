@@ -4,24 +4,31 @@
 // behaviour it approximates.
 
 /** Seconds between generative events, picked uniformly at random within this
- * range each time (task 12). Reference behaviour was 10-40s; shortened here
- * so the effect is auditionable without a long wait — widen this back out
- * once the character itself is right. */
-export const MIN_EVENT_INTERVAL_SECONDS = 4;
-export const MAX_EVENT_INTERVAL_SECONDS = 12;
+ * range each time. Kept deliberately shorter than the shortest possible
+ * voice duration (ATTACK_SECONDS + MIN_HOLD_SECONDS + RELEASE_SECONDS,
+ * 4.4s below) so a new bloom always starts while the previous one is still
+ * sounding — no silent gap, always some overlap. */
+export const MIN_EVENT_INTERVAL_SECONDS = 1.5;
+export const MAX_EVENT_INTERVAL_SECONDS = 4;
 
-/** Envelope shape, in seconds. Reference: attack ~300ms, hold 1-4s, release ~700ms. */
-export const ATTACK_SECONDS = 0.3;
-export const MIN_HOLD_SECONDS = 1;
-export const MAX_HOLD_SECONDS = 4;
-export const RELEASE_SECONDS = 0.7;
+/** Envelope shape, in seconds — lengthened and smoothed from the original
+ * ~300ms/1-4s/~700ms reference per listening feedback: a slower attack and
+ * release read as smoother, and longer holds make each bloom feel less
+ * clipped. */
+export const ATTACK_SECONDS = 0.6;
+export const MIN_HOLD_SECONDS = 2;
+export const MAX_HOLD_SECONDS = 7;
+export const RELEASE_SECONDS = 1.8;
 
-/** Lowpass cutoff shared by every voice — keeps the saw source glassy rather than buzzy. */
-export const FILTER_CUTOFF_HZ = 1400;
+/** Lowpass cutoff shared by every voice — keeps the saw source glassy rather
+ * than buzzy. Lowered from 1400Hz per listening feedback for a smoother,
+ * warmer tone. */
+export const FILTER_CUTOFF_HZ = 900;
 
-/** Subtle 2-op FM colour. Set FM_INDEX to 0 to A/B the voice without it. */
+/** Subtle 2-op FM colour. Set FM_INDEX to 0 to A/B the voice without it.
+ * Index lowered from 1.5 per listening feedback — smoother, less metallic. */
 export const FM_RATIO = 2;
-export const FM_INDEX = 1.5;
+export const FM_INDEX = 0.8;
 
 /** Barely-perceptible pitch instability — not obvious vibrato. */
 export const VIBRATO_RATE_HZ = 4;

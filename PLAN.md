@@ -101,13 +101,16 @@ existing work. Hits quantize to the nearest step boundary.
 **Ambient layer.** A generative field of isolated "bloom" voices, not a
 continuous pad. Each event: a saw-ish oscillator (through a lowpass filter,
 with a restrained two-operator FM colour layered in) with its own
-attack → hold → release envelope (~300ms / 1–4s / ~700ms — smooth
-`setTargetAtTime`/linear ramps throughout, no clicks), a subtle ~4Hz/±0.075
+attack → hold → release envelope (~600ms / 2–7s / ~1.8s — smooth
+`setTargetAtTime`/linear ramps throughout, no clicks; lengthened from an
+initial ~300ms/1–4s/~700ms per listening feedback), a subtle ~4Hz/±0.075
 semitone vibrato so it never sits perfectly static, and its own fixed
 `StereoPannerNode` position for that event only (sine/cosine-derived, not a
 sweep). Voices are one-shot: built, played, and left to be garbage-collected
 after their release finishes, the same lifecycle pattern `drums.ts` already
-uses for one-shot pad hits.
+uses for one-shot pad hits. Event spacing (1.5–4s) is kept shorter than the
+shortest possible voice duration, so blooms always overlap rather than
+leaving a silent gap between them.
 
 Events are scheduled asynchronously and independently of the sequencer's
 grid/tempo — a timer picks the next gap randomly within a configured
