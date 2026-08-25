@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { clearGrid, createEmptyGrid, STEP_COUNT } from "./grid";
+import { clearGrid, createEmptyGrid, STEP_COUNT, toggleStep } from "./grid";
 
 describe("createEmptyGrid", () => {
   it("has one row per pad", () => {
@@ -44,6 +44,40 @@ describe("clearGrid", () => {
 
     clearGrid(grid);
 
+    expect(grid.kick).toBe(kickRow);
+  });
+});
+
+describe("toggleStep", () => {
+  it("flips an off step on and returns the new value", () => {
+    const grid = createEmptyGrid();
+    const result = toggleStep(grid, "kick", 0);
+    expect(result).toBe(true);
+    expect(grid.kick[0]).toBe(true);
+  });
+
+  it("flips an on step back off", () => {
+    const grid = createEmptyGrid();
+    grid.snare[4] = true;
+    const result = toggleStep(grid, "snare", 4);
+    expect(result).toBe(false);
+    expect(grid.snare[4]).toBe(false);
+  });
+
+  it("only affects the targeted pad and step", () => {
+    const grid = createEmptyGrid();
+    toggleStep(grid, "hihat", 7);
+    for (const [padId, row] of Object.entries(grid)) {
+      for (const [step, on] of row.entries()) {
+        expect(on).toBe(padId === "hihat" && step === 7);
+      }
+    }
+  });
+
+  it("mutates the grid in place rather than replacing the row", () => {
+    const grid = createEmptyGrid();
+    const kickRow = grid.kick;
+    toggleStep(grid, "kick", 2);
     expect(grid.kick).toBe(kickRow);
   });
 });
