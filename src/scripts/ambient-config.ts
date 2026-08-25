@@ -20,6 +20,11 @@ export const MIN_HOLD_SECONDS = 2;
 export const MAX_HOLD_SECONDS = 7;
 export const RELEASE_SECONDS = 1.8;
 
+/** How long a voice takes to fade out when cut short (e.g. the Ambient
+ * toggle turning off mid-bloom) — fast enough to read as immediate,
+ * long enough to avoid a click. */
+export const FAST_STOP_SECONDS = 0.05;
+
 /** Lowpass cutoff shared by every voice — keeps the saw source glassy rather
  * than buzzy. Lowered from 1400Hz per listening feedback for a smoother,
  * warmer tone. */

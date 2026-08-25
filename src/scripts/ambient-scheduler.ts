@@ -19,8 +19,10 @@ export class AmbientScheduler {
     return this.#timerId !== null;
   }
 
+  /** Fires immediately, then schedules subsequent events at random intervals. */
   start(): void {
     if (this.isRunning) return;
+    this.#onEvent();
     this.#scheduleNext();
   }
 
