@@ -1,5 +1,6 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import { PAD_DEFS } from "../scripts/pad-defs";
 ---
 
 <Layout
@@ -19,7 +20,24 @@ import Layout from "../layouts/Layout.astro";
       relate to it.
     </p>
 
-    <section id="pads" aria-label="Drum pads"></section>
+    <section id="pads" aria-label="Drum pads">
+      {
+        PAD_DEFS.map((pad) => (
+          <button
+            type="button"
+            class="pad"
+            data-pad={pad.id}
+            aria-label={`${pad.label} drum — key ${pad.key}`}
+            aria-pressed="false"
+          >
+            <span class="pad-name">{pad.label}</span>
+            <span class="pad-key" aria-hidden="true">
+              {pad.key}
+            </span>
+          </button>
+        ))
+      }
+    </section>
     <section id="grid" aria-label="Step sequencer grid"></section>
   </main>
   <section id="ambient" aria-label="Ambient layer controls"></section>
