@@ -2,7 +2,7 @@ import { audioContext } from "./audio";
 import { playHiHat, playKick, playPerc, playSnare } from "./drums";
 import { STEP_COUNT, type Grid } from "./grid";
 import { PAD_DEFS, type PadDef } from "./pad-defs";
-import { stepDurationSeconds } from "./timing";
+import { nearestStepAtElapsed, stepDurationSeconds } from "./timing";
 
 const PLAY: Record<PadDef["id"], (when: number) => void> = {
   kick: playKick,
@@ -31,6 +31,7 @@ export class Scheduler {
   #nextStepTime = 0;
   #currentStep = 0;
   #queue: ScheduledStep[] = [];
+  #startTime = 0;
 
   constructor(grid: Grid, getBpm: () => number) {
     this.#grid = grid;
@@ -45,6 +46,7 @@ export class Scheduler {
     if (this.isPlaying) return;
     this.#currentStep = 0;
     this.#nextStepTime = audioContext.currentTime;
+    this.#startTime = audioContext.currentTime;
     this.#queue = [];
     this.#timerId = setInterval(() => this.#tick(), LOOKAHEAD_MS);
   }
@@ -69,6 +71,13 @@ export class Scheduler {
       step = this.#queue.shift()!.step;
     }
     return step;
+  }
+
+  /** The step closest to right now, for quantizing a live-recorded hit — or null while stopped. */
+  nearestStep(): number | null {
+    if (!this.isPlaying) return null;
+    const elapsed = audioContext.currentTime - this.#startTime;
+    return nearestStepAtElapsed(elapsed, this.#getBpm());
   }
 
   #tick(): void {

@@ -1,5 +1,6 @@
 import { playHiHat, playKick, playPerc, playSnare } from "./drums";
 import { PAD_DEFS, type PadDef } from "./pad-defs";
+import { recordHit } from "./transport";
 
 const PLAY: Record<PadDef["id"], () => void> = {
   kick: playKick,
@@ -7,6 +8,12 @@ const PLAY: Record<PadDef["id"], () => void> = {
   hihat: playHiHat,
   perc: playPerc,
 };
+
+/** Sounds the pad and, if REC is armed, marks it into the grid — the single entry point every trigger source (pointer, focused-key, global shortcut) goes through. */
+function trigger(id: PadDef["id"]): void {
+  PLAY[id]();
+  recordHit(id);
+}
 
 const KEY_TO_PAD = new Map(PAD_DEFS.map((pad) => [pad.key.toLowerCase(), pad.id]));
 
@@ -24,7 +31,7 @@ for (const button of document.querySelectorAll<HTMLButtonElement>("#pads .pad"))
 
   // pointerdown covers mouse, touch, and pen in one listener.
   button.addEventListener("pointerdown", () => {
-    PLAY[id]();
+    trigger(id);
     setPressed(button, true);
   });
   for (const type of ["pointerup", "pointerleave", "pointercancel"] as const) {
@@ -36,7 +43,7 @@ for (const button of document.querySelectorAll<HTMLButtonElement>("#pads .pad"))
   button.addEventListener("keydown", (event) => {
     if (event.repeat || (event.key !== " " && event.key !== "Enter")) return;
     event.preventDefault();
-    PLAY[id]();
+    trigger(id);
     setPressed(button, true);
   });
   button.addEventListener("keyup", (event) => {
@@ -51,7 +58,7 @@ document.addEventListener("keydown", (event) => {
   if (event.repeat) return;
   const id = KEY_TO_PAD.get(event.key.toLowerCase());
   if (!id) return;
-  PLAY[id]();
+  trigger(id);
   const button = buttons.get(id);
   if (button) setPressed(button, true);
 });

@@ -14,3 +14,13 @@ export function stepAtElapsed(
   const stepsElapsed = Math.floor(elapsedSeconds / stepDurationSeconds(bpm));
   return ((stepsElapsed % stepCount) + stepCount) % stepCount;
 }
+
+/** Which of the 16 steps `elapsedSeconds` into a loop is closest — for quantizing a live-recorded hit to the nearest step boundary rather than the one it merely falls within. */
+export function nearestStepAtElapsed(
+  elapsedSeconds: number,
+  bpm: number,
+  stepCount: number = STEP_COUNT,
+): number {
+  const stepsElapsed = Math.round(elapsedSeconds / stepDurationSeconds(bpm));
+  return ((stepsElapsed % stepCount) + stepCount) % stepCount;
+}

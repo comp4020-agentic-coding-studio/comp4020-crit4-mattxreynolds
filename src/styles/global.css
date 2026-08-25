@@ -84,6 +84,12 @@ a {
   color: #fff;
 }
 
+#rec[aria-pressed="true"] {
+  background: #d81e1e;
+  border-color: #d81e1e;
+  color: #fff;
+}
+
 .bpm-control {
   display: flex;
   align-items: center;

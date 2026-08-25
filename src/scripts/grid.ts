@@ -26,3 +26,8 @@ export function toggleStep(grid: Grid, padId: PadDef["id"], step: number): boole
   grid[padId][step] = next;
   return next;
 }
+
+/** Marks one step on, in place — never turns a step off, so a live-recorded hit can't erase existing work. */
+export function markStep(grid: Grid, padId: PadDef["id"], step: number): void {
+  grid[padId][step] = true;
+}

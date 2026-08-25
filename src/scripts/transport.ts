@@ -1,5 +1,6 @@
-import { clearGrid, createEmptyGrid, type Grid } from "./grid";
-import { syncStepVisuals } from "./grid-visuals";
+import { clearGrid, createEmptyGrid, markStep, type Grid } from "./grid";
+import { paintStep, syncStepVisuals } from "./grid-visuals";
+import type { PadDef } from "./pad-defs";
 import { applyPreset, pickRandomPreset, type Preset } from "./presets";
 import { Scheduler } from "./scheduler";
 
@@ -12,6 +13,7 @@ let bpm = DEFAULT_BPM;
 const scheduler = new Scheduler(grid, () => bpm);
 
 const playStopButton = document.querySelector<HTMLButtonElement>("#play-stop");
+const recButton = document.querySelector<HTMLButtonElement>("#rec");
 const clearButton = document.querySelector<HTMLButtonElement>("#clear");
 const randomGrooveButton = document.querySelector<HTMLButtonElement>("#random-groove");
 const bpmInput = document.querySelector<HTMLInputElement>("#bpm");
@@ -30,23 +32,59 @@ function animate(): void {
   rafId = requestAnimationFrame(animate);
 }
 
-playStopButton?.addEventListener("click", () => {
-  if (scheduler.isPlaying) {
-    scheduler.stop();
-    if (rafId !== null) {
-      cancelAnimationFrame(rafId);
-      rafId = null;
-    }
-    playStopButton.textContent = "Play";
-    playStopButton.setAttribute("aria-pressed", "false");
-    setPlayheadStep(null);
-  } else {
-    scheduler.start();
+function startPlayback(): void {
+  if (scheduler.isPlaying) return;
+  scheduler.start();
+  if (playStopButton) {
     playStopButton.textContent = "Stop";
     playStopButton.setAttribute("aria-pressed", "true");
-    animate();
+  }
+  animate();
+}
+
+function stopPlayback(): void {
+  if (!scheduler.isPlaying) return;
+  scheduler.stop();
+  if (rafId !== null) {
+    cancelAnimationFrame(rafId);
+    rafId = null;
+  }
+  if (playStopButton) {
+    playStopButton.textContent = "Play";
+    playStopButton.setAttribute("aria-pressed", "false");
+  }
+  setPlayheadStep(null);
+}
+
+playStopButton?.addEventListener("click", () => {
+  if (scheduler.isPlaying) {
+    stopPlayback();
+  } else {
+    startPlayback();
   }
 });
+
+// Arming REC starts the sequencer if it isn't already running (recording
+// needs a running playhead to quantize hits against); disarming it only
+// stops recording, never playback.
+let isRecording = false;
+recButton?.addEventListener("click", () => {
+  isRecording = !isRecording;
+  recButton.setAttribute("aria-pressed", String(isRecording));
+  if (isRecording) startPlayback();
+});
+
+/** Called on every pad hit; while REC is armed, marks the nearest step for that pad. No-op while disarmed or stopped. */
+export function recordHit(padId: PadDef["id"]): void {
+  if (!isRecording) return;
+  const step = scheduler.nearestStep();
+  if (step === null) return;
+  markStep(grid, padId, step);
+  const button = document.querySelector<HTMLButtonElement>(
+    `#grid .step[data-pad="${padId}"][data-step="${step}"]`,
+  );
+  if (button) paintStep(button, true);
+}
 
 clearButton?.addEventListener("click", () => {
   clearGrid(grid);
