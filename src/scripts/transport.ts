@@ -1,5 +1,6 @@
 import { clearGrid, createEmptyGrid, type Grid } from "./grid";
 import { syncStepVisuals } from "./grid-visuals";
+import { applyPreset, pickRandomPreset } from "./presets";
 import { Scheduler } from "./scheduler";
 
 const DEFAULT_BPM = 120;
@@ -12,6 +13,7 @@ const scheduler = new Scheduler(grid, () => bpm);
 
 const playStopButton = document.querySelector<HTMLButtonElement>("#play-stop");
 const clearButton = document.querySelector<HTMLButtonElement>("#clear");
+const randomGrooveButton = document.querySelector<HTMLButtonElement>("#random-groove");
 const bpmInput = document.querySelector<HTMLInputElement>("#bpm");
 const bpmOutput = document.querySelector<HTMLOutputElement>("#bpm-value");
 
@@ -48,6 +50,11 @@ playStopButton?.addEventListener("click", () => {
 
 clearButton?.addEventListener("click", () => {
   clearGrid(grid);
+  syncStepVisuals(grid);
+});
+
+randomGrooveButton?.addEventListener("click", () => {
+  applyPreset(grid, pickRandomPreset());
   syncStepVisuals(grid);
 });
 
