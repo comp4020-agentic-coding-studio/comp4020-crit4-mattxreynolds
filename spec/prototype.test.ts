@@ -207,4 +207,14 @@ describe("accessibility & keyboard pass (task 9)", () => {
     expect(bpm?.tagName).toBe("INPUT");
     expect((bpm as HTMLInputElement).getAttribute("type")).toBe("range");
   });
+
+  it("gives the ambient drag control an explicit ARIA role", () => {
+    // A <div> with no role is implicit role="generic", which doesn't accept
+    // an author-supplied name — aria-label on it is a WCAG 4.1.2 violation
+    // (axe: aria-prohibited-attr), caught by an `agent-browser a11y` audit.
+    const xy = home.querySelector("#ambient-xy");
+    const role = xy?.getAttribute("role")?.trim();
+    expect(role, "#ambient-xy has aria-label but no role — the label has nothing to attach to").toBeTruthy();
+    expect(role).not.toBe("generic");
+  });
 });
