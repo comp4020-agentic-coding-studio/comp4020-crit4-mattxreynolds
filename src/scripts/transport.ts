@@ -1,4 +1,5 @@
 import { clearGrid, createEmptyGrid, type Grid } from "./grid";
+import { syncStepVisuals } from "./grid-visuals";
 import { Scheduler } from "./scheduler";
 
 const DEFAULT_BPM = 120;
@@ -47,6 +48,7 @@ playStopButton?.addEventListener("click", () => {
 
 clearButton?.addEventListener("click", () => {
   clearGrid(grid);
+  syncStepVisuals(grid);
 });
 
 bpmInput?.addEventListener("input", () => {
