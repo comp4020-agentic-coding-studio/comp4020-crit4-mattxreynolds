@@ -138,7 +138,7 @@ describe("live recording (task 6)", () => {
   });
 });
 
-describe("ambient layer (task 7)", () => {
+describe("ambient layer (tasks 11-14, generative field)", () => {
   it("has a labeled on/off toggle, independent of the rhythm transport", () => {
     const toggle = home.querySelector("#ambient-toggle");
     expect(toggle, "no #ambient-toggle control").toBeTruthy();
@@ -147,20 +147,9 @@ describe("ambient layer (task 7)", () => {
     expect(toggle?.getAttribute("aria-pressed")).toBe("false");
   });
 
-  it("has a labeled, focusable XY drag control", () => {
-    const xy = home.querySelector("#ambient-xy");
-    expect(xy, "no #ambient-xy control").toBeTruthy();
-    expect(xy?.getAttribute("aria-label")?.trim(), "#ambient-xy has no aria-label").toBeTruthy();
-    expect(xy?.getAttribute("tabindex"), "#ambient-xy is not focusable").toBe("0");
-  });
-
-  it("has a labeled intensity control", () => {
-    const intensity = home.querySelector("#ambient-intensity");
-    expect(intensity, "no #ambient-intensity control").toBeTruthy();
-    expect(["INPUT"]).toContain(intensity?.tagName);
-    const id = intensity?.getAttribute("id");
-    const label = home.querySelector(`label[for="${id}"]`);
-    expect(label?.textContent?.trim(), "intensity input has no associated <label>").toBeTruthy();
+  it("exposes no other ambient controls — tuning lives in code, not the UI", () => {
+    expect(home.querySelector("#ambient-xy"), "#ambient-xy should be gone").toBeFalsy();
+    expect(home.querySelector("#ambient-intensity"), "#ambient-intensity should be gone").toBeFalsy();
   });
 });
 
@@ -206,16 +195,6 @@ describe("accessibility & keyboard pass (task 9)", () => {
     const bpm = home.querySelector("#bpm");
     expect(bpm?.tagName).toBe("INPUT");
     expect((bpm as HTMLInputElement).getAttribute("type")).toBe("range");
-  });
-
-  it("gives the ambient drag control an explicit ARIA role", () => {
-    // A <div> with no role is implicit role="generic", which doesn't accept
-    // an author-supplied name — aria-label on it is a WCAG 4.1.2 violation
-    // (axe: aria-prohibited-attr), caught by an `agent-browser a11y` audit.
-    const xy = home.querySelector("#ambient-xy");
-    const role = xy?.getAttribute("role")?.trim();
-    expect(role, "#ambient-xy has aria-label but no role — the label has nothing to attach to").toBeTruthy();
-    expect(role).not.toBe("generic");
   });
 });
 
