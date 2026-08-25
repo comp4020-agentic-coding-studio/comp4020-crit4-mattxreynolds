@@ -516,29 +516,113 @@ input:focus-visible {
     margin: 0 0 1rem;
   }
 
+  /* The desktop transport bar is one flex-wrap row that happens to fit at
+     wide viewports; at phone width the same rules wrap it into a ragged,
+     unordered pile (Random groove stranded alone, Ambient pushed off to
+     the right by a `margin-left: auto` meant for a single row). Mobile
+     gets its own explicit grid instead: Play/Stop as the one prominent
+     action, REC/Clear/Random groove as an equal-width utility row, then
+     BPM and Ambient each as full-width rows so every control reads at a
+     predictable, thumb-sized target. */
   #transport {
-    margin: 1rem 0;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-areas:
+      "play play play"
+      "rec clear random"
+      "bpm bpm bpm"
+      "ambient ambient ambient";
+    align-items: stretch;
+    gap: 0.6rem;
+    margin: 1.25rem 0;
+  }
+
+  #transport #play-stop {
+    grid-area: play;
+    width: 100%;
+    margin-right: 0;
+    padding: 0.85rem 1rem;
+    font-size: 1.1rem;
+  }
+
+  #transport #rec {
+    grid-area: rec;
+  }
+
+  #transport #clear {
+    grid-area: clear;
+  }
+
+  #transport #random-groove {
+    grid-area: random;
+  }
+
+  #transport #rec,
+  #transport #clear,
+  #transport #random-groove {
+    width: 100%;
+    padding: 0.7rem 0.4rem;
+    font-size: 0.85rem;
+    text-align: center;
+  }
+
+  #transport .bpm-control {
+    grid-area: bpm;
+    width: 100%;
+    justify-content: space-between;
+    padding: 0.6rem 0.85rem;
+  }
+
+  #transport #bpm {
+    flex: 1;
+    width: auto;
+  }
+
+  #transport #ambient-toggle {
+    grid-area: ambient;
+    width: 100%;
+    margin-left: 0;
+    padding: 0.7rem 1rem;
+    text-align: center;
   }
 
   #pads {
     margin: 1rem 0;
   }
 
+  /* No room for the row labels once the grid has to fit on screen without
+     scrolling, so each row is told apart by tinting its OFF steps with a
+     faint wash of its own --pad-color instead — the same hue the label
+     used to carry. */
   #grid {
-    padding: 0.75rem 0.85rem;
+    margin: 0.75rem 0;
+    padding: 0.6rem 0.5rem;
+  }
+
+  .grid-row-label {
+    display: none;
   }
 
   .pad {
     padding: 1rem 0.5rem;
   }
 
+  .pad-key {
+    display: none;
+  }
+
   .grid-steps {
-    display: flex;
-    gap: 0.35rem;
+    display: grid;
+    grid-template-columns: repeat(16, minmax(0, 1fr));
+    gap: 0.15rem;
   }
 
   .step {
-    width: 2.25rem;
-    flex: 0 0 2.25rem;
+    width: 100%;
+  }
+
+  .step:not(.step--on) {
+    background: color-mix(in srgb, var(--pad-color, var(--bg-step)) 22%, var(--bg-step));
+    border-color: color-mix(in srgb, var(--pad-color, var(--border-step)) 40%, var(--border-step));
   }
 }
