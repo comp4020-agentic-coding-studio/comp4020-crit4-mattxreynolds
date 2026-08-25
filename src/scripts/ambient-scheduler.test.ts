@@ -45,7 +45,7 @@ describe("AmbientScheduler", () => {
   it("never lets an interval stray outside the configured bounds", () => {
     const onEvent = vi.fn();
     let call = 0;
-    const alternating = () => (call++ % 2 === 0 ? 0 : 0.999999);
+    const alternating = () => (call++ % 2 === 0 ? 0 : 1);
     const scheduler = new AmbientScheduler(onEvent, alternating);
     scheduler.start();
     vi.advanceTimersByTime(MIN_EVENT_INTERVAL_SECONDS * 1000 - 1);

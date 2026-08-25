@@ -29,3 +29,12 @@ export function semitonesToCents(semitones: number): number {
 export function fmModulatorGainHz(modulatorFrequencyHz: number, index: number): number {
   return modulatorFrequencyHz * index;
 }
+
+/** Picks a delay uniformly within [minSeconds, maxSeconds), unlocked from any grid/tempo. */
+export function randomIntervalSeconds(
+  minSeconds: number,
+  maxSeconds: number,
+  random: () => number = Math.random,
+): number {
+  return minSeconds + random() * (maxSeconds - minSeconds);
+}

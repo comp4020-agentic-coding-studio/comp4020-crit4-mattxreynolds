@@ -1,22 +1,37 @@
 import { MAX_HOLD_SECONDS, MIN_HOLD_SECONDS } from "./ambient-config";
+import { AmbientScheduler } from "./ambient-scheduler";
 import { spawnAmbientVoice } from "./ambient-voice";
 
-// The #ambient-toggle button exists in the markup but isn't wired to
-// anything yet — task 12 adds the generative scheduler and its click
-// handler. For now, this only exposes a dev-only console hook so the bloom
-// voice can be auditioned by hand: run `__ambientTest.trigger()` in the
-// browser console.
-declare global {
-  interface Window {
-    __ambientTest?: { trigger(): void };
-  }
-}
-
-function triggerTestBloom(): void {
+// Pitch and stereo position are still placeholders — tasks 13 (per-event
+// stereo field) and 14 (pitch integration) replace them. Every bloom is
+// already audible and correctly shaped, just not yet spatially or
+// musically varied.
+function triggerBloom(): void {
   const frequencyHz = 440;
   const pan = Math.random() * 2 - 1;
   const holdSeconds = MIN_HOLD_SECONDS + Math.random() * (MAX_HOLD_SECONDS - MIN_HOLD_SECONDS);
   spawnAmbientVoice(frequencyHz, pan, holdSeconds);
 }
 
-window.__ambientTest = { trigger: triggerTestBloom };
+// Dev-only console hook to audition a single bloom on demand, independent
+// of the generative scheduler below: run `__ambientTest.trigger()`.
+declare global {
+  interface Window {
+    __ambientTest?: { trigger(): void };
+  }
+}
+window.__ambientTest = { trigger: triggerBloom };
+
+const scheduler = new AmbientScheduler(triggerBloom);
+const toggleButton = document.querySelector<HTMLButtonElement>("#ambient-toggle");
+
+toggleButton?.addEventListener("click", () => {
+  const turningOn = !scheduler.isRunning;
+  if (turningOn) {
+    scheduler.start();
+  } else {
+    scheduler.stop();
+  }
+  toggleButton.setAttribute("aria-pressed", String(turningOn));
+  toggleButton.textContent = turningOn ? "Ambient: On" : "Ambient: Off";
+});
