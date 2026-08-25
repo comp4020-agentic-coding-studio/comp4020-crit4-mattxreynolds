@@ -16,28 +16,7 @@ something a test can't see.
 
 ## Backlog
 
-8. **Responsive layout pass.** Dark theme; consistent color per instrument
-   across its pad and grid row. Build the page structure from `PLAN.md`'s
-   layout decision: header → transport bar (Play/Stop, REC, Clear,
-   random-groove, BPM) → pads → grid → a persistent ambient bar pinned to
-   the bottom of the viewport, sized to stay a compact strip (control
-   shrinks on phone) rather than another full section. Phone layout: pads as
-   2×2, the 16-step grid scrolling horizontally within its own container
-   (not the page).
-   - Done when: verified in `agent-browser` at both 1920×1080 and 390×844,
-     including scrolling the page on phone to confirm the ambient bar stays
-     visible and isn't overlapped by mobile browser chrome.
-   - Acceptance: no page-level horizontal scroll at either viewport; content
-     above the ambient bar has padding so nothing sits underneath it; every
-     control is reachable and usable at both sizes; invariants stay green.
-
-10. **First-impression & copy pass.** Real title, meta description, and
-    `og:image`/card update per `CLAUDE.md`; delete `spec/starter.test.ts` and
-    its `data-testid="intro"` element; make sure the opening screen — with no
-    audio playing and no instructions — visibly invites a first tap.
-    - Done when: a fresh look at the page (no prior context) makes it obvious
-      what to do without reading anything.
-    - Acceptance: all invariants green; `pnpm check` fully green.
+_(empty — see Polish below)_
 
 ### Stretch (only if the above is solid with time to spare)
 
@@ -64,6 +43,7 @@ _(empty)_
 7. Ambient layer — 4e9675e
 8. Responsive layout pass — 2a04b81
 9. Accessibility & keyboard pass — 6f12f4b
+10. First-impression & copy pass — 6d71273
 
 ## Polish
 
