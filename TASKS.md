@@ -115,16 +115,7 @@ something a test can't see.
 
 ## In progress
 
-2. **Drum pads.** Implement the four synthesized voices (kick/snare/hi-hat/
-   perc per `PLAN.md`'s synthesis spec) and wire them to four pad buttons,
-   each triggerable by pointer, touch, and a keyboard key (A/S/D/F).
-   - Done when: pressing/tapping/clicking each pad makes a distinct,
-     recognizable drum sound and shows a visible pressed state.
-   - Acceptance: each pad is a real `<button>` with an `aria-label` and
-     visible key hint; `crit-4.test.ts`'s "makes sound live via the Web Audio
-     API" assertion turns green; the "reachable without a mouse" assertion
-     stays green. Verify by ear in the dev server — a test can't confirm a
-     kick sounds like a kick.
+_(empty — WIP limit 1)_
 
 ## Blocked
 
@@ -133,6 +124,7 @@ _(empty)_
 ## Done
 
 1. Web Audio foundation + page skeleton — 4a54f3e
+2. Drum pads — 1da27e4
 
 ## Polish
 
