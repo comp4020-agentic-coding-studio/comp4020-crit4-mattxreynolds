@@ -16,16 +16,6 @@ something a test can't see.
 
 ## Backlog
 
-5. **Preset grooves + random-groove button.** A small built-in set (four)
-   of contrasting preset patterns, and a transport-bar button that picks one
-   at random and loads it into the grid (overwriting the current pattern, no
-   confirmation needed).
-   - Done when: pressing the button visibly changes the grid to a different
-     preset pattern; playback (if running) picks up the new pattern on the
-     next pass; the button never auto-starts playback on its own.
-   - Acceptance: unit test that loading a preset produces the expected grid
-     state, and that the random pick draws from the full preset set.
-
 6. **Live recording into the grid.** REC toggle arms recording (starting the
    sequencer if it isn't running); pad hits while armed mark the nearest
    step true for that pad's row and never clear a step. Disarming REC stops
@@ -105,6 +95,7 @@ _(empty)_
 2. Drum pads — 1da27e4
 3. Sequencer clock + grid state + transport — bf0f8f1
 4. Click-to-toggle step editing — 6736ac7
+5. Preset grooves + random-groove button — c7e4bd5
 
 ## Polish
 
