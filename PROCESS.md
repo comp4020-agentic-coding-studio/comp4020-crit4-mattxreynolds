@@ -95,3 +95,17 @@ this file on GitHub and look at it before you ship.
   in `astro.config.ts`) rather than widening the test's file scan, so "shipped
   JS" keeps meaning a real asset for the rest of the build.
   [`cbfb7c2`](https://github.com/comp4020-agentic-coding-studio/comp4020-crit4-mattxreynolds/commit/cbfb7c2)
+- Task 8: first attempt at the phone grid used `position: sticky; left: 0`
+  on each row's instrument label, with one shared `overflow-x: auto` on
+  `#grid`, so all four rows would scroll together behind a fixed label
+  column. Looked right in a screenshot, but measuring `getBoundingClientRect()`
+  against `scrollLeft` in `agent-browser` showed the label silently
+  detaching and sliding off-screen for the last ~20% of the scroll range —
+  a real Chrome layout quirk (the sticky containing block resolving to the
+  scroll container's client width, not the row's full scrollable width),
+  not something a screenshot of the unscrolled state would ever catch.
+  Dropped the shared-scrollbar approach for one scroll container per row
+  (`overflow-x: auto` on `.grid-steps`, label outside it entirely, so it
+  never needs to be sticky) — less clever, but the label genuinely can't
+  detach because it isn't part of the scrolling box at all.
+  [`2a04b81`](https://github.com/comp4020-agentic-coding-studio/comp4020-crit4-mattxreynolds/commit/2a04b81)
