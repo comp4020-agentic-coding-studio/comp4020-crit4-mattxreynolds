@@ -74,6 +74,7 @@ _(empty)_
 5. Preset grooves + random-groove button — c7e4bd5
 6. Live recording into the grid — 7e563cc
 7. Ambient layer — 4e9675e
+8. Responsive layout pass — 2a04b81
 
 ## Polish
 
