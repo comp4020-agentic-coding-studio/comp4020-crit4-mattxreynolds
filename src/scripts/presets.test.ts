@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { createEmptyGrid, STEP_COUNT } from "./grid";
 import { PAD_DEFS } from "./pad-defs";
-import { applyPreset, pickRandomPreset, PRESETS } from "./presets";
+import { applyPreset, pickRandomPreset, PRESETS, type Preset } from "./presets";
 
 describe("PRESETS", () => {
   it("has four contrasting built-in presets", () => {
@@ -74,5 +74,28 @@ describe("pickRandomPreset", () => {
   it("defaults to Math.random when no rng is supplied", () => {
     const preset = pickRandomPreset();
     expect(PRESETS).toContain(preset);
+  });
+
+  it("never re-picks the excluded (i.e. immediately previous) preset", () => {
+    for (const excluded of PRESETS) {
+      // Sweep the injectable RNG's whole [0, 1) range so every remaining
+      // slot is exercised deterministically — none of them should land back
+      // on the excluded preset.
+      for (let i = 0; i < PRESETS.length; i++) {
+        const rng = () => i / PRESETS.length;
+        expect(pickRandomPreset(rng, excluded)).not.toBe(excluded);
+      }
+    }
+  });
+
+  it("still draws from all the other presets when one is excluded", () => {
+    const excluded = PRESETS[0];
+    const picked = new Set<Preset>();
+    for (let i = 0; i < PRESETS.length - 1; i++) {
+      const rng = () => i / (PRESETS.length - 1);
+      picked.add(pickRandomPreset(rng, excluded));
+    }
+    expect(picked.size).toBe(PRESETS.length - 1);
+    expect(picked.has(excluded)).toBe(false);
   });
 });
