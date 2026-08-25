@@ -111,3 +111,17 @@ describe("preset grooves + random-groove button (task 5)", () => {
     expect(button?.textContent?.trim()).toBeTruthy();
   });
 });
+
+describe("live recording (task 6)", () => {
+  it("has a labeled REC toggle", () => {
+    const rec = home.querySelector("#rec");
+    expect(rec, "no #rec control").toBeTruthy();
+    expect(rec?.tagName).toBe("BUTTON");
+    expect(rec?.textContent?.trim()).toBeTruthy();
+  });
+
+  it("exposes REC as a toggle-style control", () => {
+    const rec = home.querySelector("#rec");
+    expect(rec?.getAttribute("aria-pressed")).toBe("false");
+  });
+});

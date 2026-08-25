@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { clearGrid, createEmptyGrid, STEP_COUNT, toggleStep } from "./grid";
+import { clearGrid, createEmptyGrid, markStep, STEP_COUNT, toggleStep } from "./grid";
 
 describe("createEmptyGrid", () => {
   it("has one row per pad", () => {
@@ -79,5 +79,30 @@ describe("toggleStep", () => {
     const kickRow = grid.kick;
     toggleStep(grid, "kick", 2);
     expect(grid.kick).toBe(kickRow);
+  });
+});
+
+describe("markStep", () => {
+  it("turns an off step on", () => {
+    const grid = createEmptyGrid();
+    markStep(grid, "kick", 3);
+    expect(grid.kick[3]).toBe(true);
+  });
+
+  it("leaves an already-on step on — never clears a step", () => {
+    const grid = createEmptyGrid();
+    grid.snare[4] = true;
+    markStep(grid, "snare", 4);
+    expect(grid.snare[4]).toBe(true);
+  });
+
+  it("only affects the targeted pad and step", () => {
+    const grid = createEmptyGrid();
+    markStep(grid, "hihat", 7);
+    for (const [padId, row] of Object.entries(grid)) {
+      for (const [step, on] of row.entries()) {
+        expect(on).toBe(padId === "hihat" && step === 7);
+      }
+    }
   });
 });
