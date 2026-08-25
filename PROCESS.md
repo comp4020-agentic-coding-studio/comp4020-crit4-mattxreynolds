@@ -1,9 +1,5 @@
 # Process overview
 
-<!-- TEMPLATE: this file is a shape to fill in, not a form. Replace everything
-     in it with your own overview, and delete this comment — `pnpm
-     check:evidence` will remind you if it's still here. -->
-
 A reading-guide to how the work came together --- a map to your process, not an
 essay about it. Markers read this file and follow its citations; they don't
 trawl the repo for evidence you didn't point at, so if a moment mattered, cite
@@ -17,60 +13,64 @@ cover every deliverable.
 
 ## What I built
 
-One paragraph: the thing, and the idea behind it.
+Driftbeat, a browser-based drum-pad instrument: four synthesized drum pads
+(kick/snare/hi-hat/perc, no audio files) are the primary, immediate
+interaction, with a 16-step grid underneath that's both a recording target
+and directly clickable, so a groove can be drummed in live or built by hand
+and freely switched between. A sparse generative ambient layer shares the
+same screen with its own independent on/off --- isolated synthesized tones
+bloom occasionally at fixed stereo positions, staying clearly subordinate to
+the sequencer rather than competing with it.
 
 ## The moments that mattered
 
-Three or four for an assignment; fewer is fine for a weekly prototype. Keep the
-list short so each moment has room to do all four jobs:
+> Task 1's acceptance check (`spec/crit-4.test.ts`, "makes sound live via the
+> Web Audio API") scans shipped `.js` files for `AudioContext`, but Astro/Vite
+> inlines any built script under 4kb straight into the HTML --- reusing
+> `assetsInlineLimit`, a setting meant for images --- instead of emitting a
+> `.js` file at all. A correct, fully synthesized audio implementation
+> vanished from the check's view rather than failing it, which is worse: a
+> silently-skipped check reads as passing. I fixed it at the config level
+> (`assetsInlineLimit: 0` in `astro.config.ts`) rather than widening the
+> test's file scan, so "shipped as JS" keeps meaning a real asset for
+> everything the rest of the build produces, not just this one check.
+> Confirmed by rebuilding and finding the drum-pad script present in `dist/`
+> as its own `.js` file, with the spec test passing against the real build
+> rather than an inlined one
+> ([`cbfb7c2`](https://github.com/comp4020-agentic-coding-studio/comp4020-crit4-mattxreynolds/commit/cbfb7c2)).
 
-1. **what happened** --- the problem, or the thing that went wrong
-2. **what you did instead of the obvious thing** --- the call you made, and why
-   it beat the obvious one
-3. **how you knew it was right** --- the check you ran, the viewport you looked
-   at, what you read before accepting the diff
-4. **the citation** --- a commit or commit range, a `CLAUDE.md` change, a check
-   that went from red to green, a prompt paired with the commit it produced
+> Partway through the build, `CLAUDE.md` had accumulated both the standing
+> facts a session needs every time and a full procedural essay --- the
+> working loop, a sensor-by-sensor writeup, a stale lint step from a check
+> that no longer exists --- that only needed reading once per stage, not
+> repeated every turn. Rather than keep trimming prose in place, I split it:
+> `CLAUDE.md` keeps only what's true every session, and the actual multi-stage
+> workflow moved into three self-triggering skills (`ideate`, `plan`,
+> `working-loop`). Reviewing what the old version actually said before
+> deleting it surfaced two things a straight rewrite would have lost: a
+> "verification precedes done" rule that an *earlier* redesign had already
+> silently dropped, which I restored in the new skills rather than letting a
+> second rewrite repeat the same loss; and a `.gitignore` gap --- `.claude/`
+> was wholesale-excluded for API-key safety, which would have made the new
+> skills themselves invisible to git the moment I created them. I checked
+> `git status` after adding the skill files specifically to catch that before
+> it became a real problem, not after
+> ([`673a940`](https://github.com/comp4020-agentic-coding-studio/comp4020-crit4-mattxreynolds/commit/673a940)).
 
-Jobs 2 and 3 are the ones the repo can't tell a reader on its own, so they're
-where the marks are. The strongest moments are the ones where a correction
-landed in the **harness** --- the standards and checks your work has to satisfy
---- rather than in a retry: a rule added to `CLAUDE.md`, a check wired up, an
-attempt thrown away. Retrying until it passes is the routine case, and changing
-what the work runs against is the skilled one.
-
-Cite each moment as a link whose text is the commit hash or range and whose
-target is this repo's commit or compare URL, so a reader clicks straight to the
-evidence:
-
-- one commit: [`a1b2c3d`](https://github.com/YOUR-ORG/YOUR-REPO/commit/a1b2c3d)
-- a range:
-  [`a1b2c3d...e4f5a6b`](https://github.com/YOUR-ORG/YOUR-REPO/compare/a1b2c3d...e4f5a6b)
-
-To pair a prompt with the commit it produced, quote the prompt (curated, not a
-full transcript) next to the citation:
-
-> the prompt, verbatim
-
-Screenshots are welcome where one carries the verification better than a
-sentence does. Commit the file to this repo and link it with a **relative**
-path, which is what makes it render on GitHub: `![alt text](docs/before.png)`.
-Images don't count towards the word count and don't replace the citation.
-
-### A worked moment, for shape
-
-Delete this section along with the rest of the boilerplate --- it's here to show
-the four jobs in one paragraph, not to be imitated in content.
-
-> The date formatter kept coming back with `toLocaleDateString()` and no locale
-> argument, so the same build rendered differently on my machine and in CI. I'd
-> already re-prompted it twice, which fixed the line but not the habit, so the
-> third time I put the rule in `CLAUDE.md` instead
-> ([`3f9ac21`](https://github.com/YOUR-ORG/YOUR-REPO/commit/3f9ac21)) and added
-> a spec test that fails on a bare `toLocaleDateString`. That's what told me it
-> had actually taken: the test went red against the old code and green against
-> the new, and the next two features it wrote passed it without prompting
-> ([`3f9ac21...b7e0d14`](https://github.com/YOUR-ORG/YOUR-REPO/compare/3f9ac21...b7e0d14)).
+> The random-groove button picked a preset uniformly at random on every
+> press, which meant it could hand back the exact same groove twice in a
+> row --- indistinguishable from the button doing nothing, from the player's
+> side. Rather than fix this by eyeballing the transport wiring, I wrote a
+> failing test first (`pickRandomPreset` must never return whichever preset
+> was excluded) so the requirement was pinned down as "never repeats the
+> previous pick," not just "usually feels random." The fix threads an
+> optional `exclude` parameter through `pickRandomPreset` and has the
+> transport remember its last pick to pass back in. The test went red
+> against the old unconditional-random implementation and green once
+> `exclude` filtered the candidate list, which is what told me the fix
+> matched the requirement rather than just changing behaviour in roughly the
+> right direction
+> ([`b5288c8...9534baa`](https://github.com/comp4020-agentic-coding-studio/comp4020-crit4-mattxreynolds/compare/b5288c8...9534baa)).
 
 ## Before you ship
 
@@ -83,43 +83,3 @@ green check is not a substitute for that curation.
 
 Images aren't checked: whether one renders is visible the moment you look. Open
 this file on GitHub and look at it before you ship.
-
-## Draft notes (curate into "moments that mattered" before shipping)
-
-- Task 1: `spec/crit-4.test.ts`'s "makes sound live via the Web Audio API"
-  check scans shipped `.js` files for `AudioContext`, but Astro/Vite inlines
-  built scripts under 4kb straight into the HTML (reusing `assetsInlineLimit`,
-  meant for images) instead of emitting a `.js` file — so a correct,
-  synthesized-audio implementation silently vanished from the check's view
-  rather than failing it. Fixed at the config level (`assetsInlineLimit: 0`
-  in `astro.config.ts`) rather than widening the test's file scan, so "shipped
-  JS" keeps meaning a real asset for the rest of the build.
-  [`cbfb7c2`](https://github.com/comp4020-agentic-coding-studio/comp4020-crit4-mattxreynolds/commit/cbfb7c2)
-- Task 8: first attempt at the phone grid used `position: sticky; left: 0`
-  on each row's instrument label, with one shared `overflow-x: auto` on
-  `#grid`, so all four rows would scroll together behind a fixed label
-  column. Looked right in a screenshot, but measuring `getBoundingClientRect()`
-  against `scrollLeft` in `agent-browser` showed the label silently
-  detaching and sliding off-screen for the last ~20% of the scroll range —
-  a real Chrome layout quirk (the sticky containing block resolving to the
-  scroll container's client width, not the row's full scrollable width),
-  not something a screenshot of the unscrolled state would ever catch.
-  Dropped the shared-scrollbar approach for one scroll container per row
-  (`overflow-x: auto` on `.grid-steps`, label outside it entirely, so it
-  never needs to be sticky) — less clever, but the label genuinely can't
-  detach because it isn't part of the scrolling box at all.
-  [`2a04b81`](https://github.com/comp4020-agentic-coding-studio/comp4020-crit4-mattxreynolds/commit/2a04b81)
-- Task 9: hand-written aria-label/aria-pressed markup (added incrementally
-  across tasks 2–7) all read correctly to jsdom-based tests, but an
-  `agent-browser a11y` (axe) audit against the live page still found a real
-  violation those tests couldn't see: `#ambient-xy`'s `aria-label` sat on a
-  bare `<div>` with no `role`, which is implicit `role="generic"` — a role
-  that doesn't accept an author-supplied name at all, so the label was
-  invisible to assistive tech despite passing every DOM-structure check.
-  Fixed by adding `role="group"` (not a more specific interactive role like
-  `slider`, since this control's keyboard operability is still an
-  intentional stretch goal — a role that implies operability it doesn't
-  have would be worse than the generic one). Worth running the automated
-  axe audit at least once per accessibility pass, not just hand-checking
-  attributes against a mental model of ARIA rules.
-  [`6f12f4b`](https://github.com/comp4020-agentic-coding-studio/comp4020-crit4-mattxreynolds/commit/6f12f4b)
