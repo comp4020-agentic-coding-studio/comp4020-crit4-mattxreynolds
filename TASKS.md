@@ -101,19 +101,7 @@ something a test can't see.
 
 ## In progress
 
-3. **Sequencer clock + grid state + transport.** A lookahead scheduler at
-   16 steps and an adjustable BPM (default 120, range ~60–180, live
-   range/number input the scheduler reads every tick), a shared grid data
-   model (4 rows × 16 steps), Play/Stop wired to the scheduler, a visual
-   playhead synced to the current step, and a Clear button. Seed the grid
-   empty — no editing yet.
-   - Done when: pressing Play loops audibly and visibly in time; changing
-     BPM mid-loop audibly changes tempo without needing to stop first; Stop
-     halts and resets the playhead; Clear empties the grid.
-   - Acceptance: pure unit tests for the step-timing math (given elapsed
-     time/BPM, which step is current, at more than one BPM value) and the
-     grid helpers (create empty, clear); verified by ear that the loop
-     doesn't drift or stutter at either end of the BPM range.
+_(empty)_
 
 ## Blocked
 
@@ -123,6 +111,7 @@ _(empty)_
 
 1. Web Audio foundation + page skeleton — 4a54f3e
 2. Drum pads — 1da27e4
+3. Sequencer clock + grid state + transport — bf0f8f1
 
 ## Polish
 
