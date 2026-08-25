@@ -10,6 +10,13 @@
   --border: #2c2c3a;
   --focus: #5da9ff;
 
+  /* Shared elevation for surfaces that should read as raised above --bg
+     rather than flush with it (pads, transport controls, the grid tile) —
+     a subtle top-lit gradient plus a soft drop shadow, kept restrained so
+     it doesn't compete with the per-instrument accent colors. */
+  --surface: linear-gradient(180deg, color-mix(in srgb, var(--bg-elevated) 88%, white 12%), var(--bg-elevated));
+  --shadow-elevated: 0 6px 18px -10px rgba(0, 0, 0, 0.75);
+
   --color-kick: #ff6b4a;
   --color-snare: #ffd166;
   --color-hihat: #4ecdc4;
@@ -101,7 +108,8 @@ h1 {
   padding: 1.5rem 0.5rem;
   border: 2px solid var(--pad-color, var(--border));
   border-radius: 0.5rem;
-  background: var(--bg-elevated);
+  background: var(--surface);
+  box-shadow: var(--shadow-elevated);
   color: var(--text);
   font: inherit;
   cursor: pointer;
@@ -135,13 +143,17 @@ body.pre-first-gesture .pad {
   animation: pad-invite 2.4s ease-in-out infinite;
 }
 
+/* Layers the resting elevation shadow under the glow so pads don't go flat
+   while this animation is running (it fully replaces .pad's own
+   box-shadow value for its duration). */
 @keyframes pad-invite {
   0%,
   100% {
-    box-shadow: 0 0 0 0 transparent;
+    box-shadow: var(--shadow-elevated), 0 0 0 0 transparent;
   }
   50% {
-    box-shadow: 0 0 8px 4px color-mix(in srgb, var(--pad-color, var(--color-ambient)) 55%, transparent);
+    box-shadow: var(--shadow-elevated),
+      0 0 8px 4px color-mix(in srgb, var(--pad-color, var(--color-ambient)) 55%, transparent);
   }
 }
 
@@ -187,7 +199,8 @@ body.pre-first-gesture .pad {
   padding: 0.5rem 1rem;
   border: 2px solid var(--border);
   border-radius: 0.5rem;
-  background: var(--bg-elevated);
+  background: var(--surface);
+  box-shadow: var(--shadow-elevated);
   color: var(--text);
   font: inherit;
   cursor: pointer;
@@ -246,7 +259,8 @@ body.pre-first-gesture .pad {
   padding: 0.4rem 0.85rem;
   border: 2px solid var(--border);
   border-radius: 0.5rem;
-  background: var(--bg-elevated);
+  background: var(--surface);
+  box-shadow: var(--shadow-elevated);
 }
 
 .bpm-control #bpm-value {
@@ -339,7 +353,8 @@ body.pre-first-gesture .pad {
   padding: 1rem 1.25rem;
   border: 2px solid var(--border);
   border-radius: 0.75rem;
-  background: var(--bg-elevated);
+  background: var(--surface);
+  box-shadow: var(--shadow-elevated);
 }
 
 .grid-row {
@@ -420,7 +435,9 @@ input:focus-visible {
 @media (hover: hover) {
   .pad:not(.pad--pressed):hover {
     border-color: var(--pad-color, var(--border));
-    box-shadow: 0 6px 18px -6px color-mix(in srgb, var(--pad-color, var(--color-ambient)) 55%, transparent);
+    box-shadow:
+      var(--shadow-elevated),
+      0 6px 18px -6px color-mix(in srgb, var(--pad-color, var(--color-ambient)) 55%, transparent);
   }
 
   .step:not(.step--on):hover {
