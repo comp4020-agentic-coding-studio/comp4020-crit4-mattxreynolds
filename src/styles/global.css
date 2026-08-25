@@ -245,6 +245,58 @@ body.pre-first-gesture .pad {
   font-variant-numeric: tabular-nums;
 }
 
+/* Custom range styling to replace the browser-default track/thumb, which
+   otherwise clashes with the rest of the dark/neon system. --bpm-fill is
+   kept in sync with the current value by transport.ts on load and on
+   input, since a native range has no built-in way to paint "how far
+   along" the value is. */
+#bpm {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 8rem;
+  height: 0.4rem;
+  border-radius: 999px;
+  background: linear-gradient(
+    to right,
+    var(--color-ambient) var(--bpm-fill, 50%),
+    var(--bg-step) var(--bpm-fill, 50%)
+  );
+  cursor: pointer;
+}
+
+#bpm::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 1rem;
+  height: 1rem;
+  margin-top: -0.3rem;
+  border-radius: 50%;
+  background: var(--text);
+  border: 2px solid var(--color-ambient);
+  cursor: pointer;
+}
+
+#bpm::-moz-range-track {
+  height: 0.4rem;
+  border-radius: 999px;
+  background: var(--bg-step);
+}
+
+#bpm::-moz-range-progress {
+  height: 0.4rem;
+  border-radius: 999px;
+  background: var(--color-ambient);
+}
+
+#bpm::-moz-range-thumb {
+  width: 1rem;
+  height: 1rem;
+  border-radius: 50%;
+  background: var(--text);
+  border: 2px solid var(--color-ambient);
+  cursor: pointer;
+}
+
 /* Ambient is its own independent on/off, not part of the rhythm transport
    (see PLAN.md) — pushed to the end of the row and shaped like a switch so
    it reads as a separate kind of control, not a fifth transport button. */

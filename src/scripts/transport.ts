@@ -98,9 +98,21 @@ randomGrooveButton?.addEventListener("click", () => {
   syncStepVisuals(grid);
 });
 
+/** Drives the slider's filled-track custom property — native range inputs have no built-in way to paint "how far along" without this. */
+function syncBpmFill(input: HTMLInputElement): void {
+  const min = Number(input.min);
+  const max = Number(input.max);
+  const value = Number(input.value);
+  const pct = ((value - min) / (max - min)) * 100;
+  input.style.setProperty("--bpm-fill", `${pct}%`);
+}
+
+if (bpmInput) syncBpmFill(bpmInput);
+
 bpmInput?.addEventListener("input", () => {
   const value = Number(bpmInput.value);
   if (Number.isNaN(value)) return;
   bpm = value;
   if (bpmOutput) bpmOutput.value = String(value);
+  syncBpmFill(bpmInput);
 });
