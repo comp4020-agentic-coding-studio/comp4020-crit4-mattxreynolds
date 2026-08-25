@@ -56,4 +56,62 @@ _(empty)_
 
 ## Polish
 
-_(empty — populated by review against the spec once the backlog above is built)_
+Scope for this pass: desktop (1920×1080) only, visual/CSS only — no layout
+structure or DOM order changes (grid-above-pads from `cbad5d7` stands).
+Phone (390×844) still needs a look before ship, but that's a separate pass,
+not folded into this one.
+
+15. **Style the BPM range input.** Replace the unstyled browser-default
+    track/thumb with custom `::-webkit-slider-*`/`::-moz-range-*` styling
+    that matches the app's dark/neon system — the one element on the page
+    that currently looks unfinished next to everything else.
+    - Done when: the slider reads as part of the same design system as the
+      buttons around it (track, thumb, and filled portion all use the
+      existing color tokens), and still drags smoothly and shows
+      `:focus-visible`.
+    - Acceptance: verified visually in `agent-browser` at 1920×1080; no
+      automated test — this is a pure style change with no new DOM/state.
+
+16. **Rebalance the transport bar at wide viewports.** The Ambient toggle's
+    `margin-left: auto` leaves a large dead gap between it and the BPM
+    control on a 1920px-wide bar. Close that gap — e.g. give the bar a
+    deliberate two-cluster layout (transport actions left, Ambient right,
+    with controlled spacing) or another treatment that reads as designed
+    rather than as leftover space.
+    - Done when: the transport bar looks balanced and intentional at
+      1920×1080, not stretched.
+    - Acceptance: verified visually in `agent-browser`; invariants stay
+      green (no DOM changes expected, styling only).
+
+17. **Differentiate REC from Clear / Random groove.** All three currently
+    share the same dim, bordered box, so REC — a stateful, toggleable
+    action — doesn't read as different from the two one-shot utility
+    buttons until it's already armed.
+    - Done when: REC is visually distinguishable from Clear/Random groove
+      in its resting (unarmed) state, without competing with Play/Stop for
+      top billing.
+    - Acceptance: verified visually in `agent-browser`; `aria-pressed`
+      wiring untouched.
+
+18. **Boost step-grid contrast.** `--bg-step` and `--bg-elevated` sit one
+    shade apart, so off steps barely register against the grid's own
+    container — at a glance it reads as a dark slab with faint seams
+    rather than a legible 4×16 grid.
+    - Done when: individual off steps are clearly distinguishable from the
+      grid container background at a glance, at both idle and mid-loop
+      (`.step--current` outline still reads clearly against the new
+      contrast).
+    - Acceptance: verified visually in `agent-browser`; `--bg-step` (or
+      `.step`'s border/background) adjusted, other tokens untouched unless
+      needed.
+
+19. **Add surface depth.** The page is currently flat — no shadows,
+    gradients, or elevation anywhere except the pad-invite glow and hover
+    states. Add restrained depth to key surfaces (pads, grid container,
+    transport buttons) so the page reads as an instrument with presence
+    rather than a set of flat rectangles.
+    - Done when: pads/grid/transport have a subtle sense of elevation
+      (e.g. soft shadow or gradient) that doesn't fight the existing hover/
+      pressed states or the pad-invite animation.
+    - Acceptance: verified visually in `agent-browser` at 1920×1080;
+      `prefers-reduced-motion`/`hover: hover` guards stay intact.
