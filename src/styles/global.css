@@ -121,12 +121,19 @@ a {
 .step {
   width: 100%;
   aspect-ratio: 1;
+  padding: 0;
   border: 1px solid #999;
   border-radius: 0.2rem;
   background: #f4f4f4;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+.step--on {
+  background: #1a1a1a;
+  border-color: #1a1a1a;
 }
 
 .step--current {
-  border-color: #0b5fff;
-  background: #cfe0ff;
+  box-shadow: 0 0 0 2px #0b5fff inset;
 }

@@ -19,3 +19,10 @@ export function clearGrid(grid: Grid): void {
     grid[pad.id].fill(false);
   }
 }
+
+/** Flips one step on/off, in place, and returns the new value. */
+export function toggleStep(grid: Grid, padId: PadDef["id"], step: number): boolean {
+  const next = !grid[padId][step];
+  grid[padId][step] = next;
+  return next;
+}

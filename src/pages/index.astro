@@ -57,7 +57,14 @@ import { PAD_DEFS } from "../scripts/pad-defs";
             <span class="grid-row-label">{pad.label}</span>
             <div class="grid-steps">
               {Array.from({ length: STEP_COUNT }).map((_, step) => (
-                <div class="step" data-step={step} />
+                <button
+                  type="button"
+                  class="step"
+                  data-pad={pad.id}
+                  data-step={step}
+                  aria-pressed="false"
+                  aria-label={`${pad.label} step ${step + 1}`}
+                />
               ))}
             </div>
           </div>
