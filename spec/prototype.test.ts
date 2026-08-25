@@ -125,3 +125,29 @@ describe("live recording (task 6)", () => {
     expect(rec?.getAttribute("aria-pressed")).toBe("false");
   });
 });
+
+describe("ambient layer (task 7)", () => {
+  it("has a labeled on/off toggle, independent of the rhythm transport", () => {
+    const toggle = home.querySelector("#ambient-toggle");
+    expect(toggle, "no #ambient-toggle control").toBeTruthy();
+    expect(toggle?.tagName).toBe("BUTTON");
+    expect(toggle?.textContent?.trim()).toBeTruthy();
+    expect(toggle?.getAttribute("aria-pressed")).toBe("false");
+  });
+
+  it("has a labeled, focusable XY drag control", () => {
+    const xy = home.querySelector("#ambient-xy");
+    expect(xy, "no #ambient-xy control").toBeTruthy();
+    expect(xy?.getAttribute("aria-label")?.trim(), "#ambient-xy has no aria-label").toBeTruthy();
+    expect(xy?.getAttribute("tabindex"), "#ambient-xy is not focusable").toBe("0");
+  });
+
+  it("has a labeled intensity control", () => {
+    const intensity = home.querySelector("#ambient-intensity");
+    expect(intensity, "no #ambient-intensity control").toBeTruthy();
+    expect(["INPUT"]).toContain(intensity?.tagName);
+    const id = intensity?.getAttribute("id");
+    const label = home.querySelector(`label[for="${id}"]`);
+    expect(label?.textContent?.trim(), "intensity input has no associated <label>").toBeTruthy();
+  });
+});
