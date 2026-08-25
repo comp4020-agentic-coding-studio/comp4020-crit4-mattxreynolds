@@ -27,7 +27,7 @@ _(empty)_
 
 ## In progress
 
-_(empty — stopped per task 14's checkpoint; see Done)_
+16. Rebalance the transport bar at wide viewports — see Polish for scope.
 
 ## Blocked
 
@@ -53,6 +53,7 @@ _(empty)_
 14. Ambient pitch integration (pentatonic pick per bloom) — 558d49c.
     **Stopped here per the brief** — awaiting listening feedback before any
     further ambient work.
+15. Style the BPM range input — 04e90b2
 
 ## Polish
 
@@ -60,17 +61,6 @@ Scope for this pass: desktop (1920×1080) only, visual/CSS only — no layout
 structure or DOM order changes (grid-above-pads from `cbad5d7` stands).
 Phone (390×844) still needs a look before ship, but that's a separate pass,
 not folded into this one.
-
-15. **Style the BPM range input.** Replace the unstyled browser-default
-    track/thumb with custom `::-webkit-slider-*`/`::-moz-range-*` styling
-    that matches the app's dark/neon system — the one element on the page
-    that currently looks unfinished next to everything else.
-    - Done when: the slider reads as part of the same design system as the
-      buttons around it (track, thumb, and filled portion all use the
-      existing color tokens), and still drags smoothly and shows
-      `:focus-visible`.
-    - Acceptance: verified visually in `agent-browser` at 1920×1080; no
-      automated test — this is a pure style change with no new DOM/state.
 
 16. **Rebalance the transport bar at wide viewports.** The Ambient toggle's
     `margin-left: auto` leaves a large dead gap between it and the BPM
