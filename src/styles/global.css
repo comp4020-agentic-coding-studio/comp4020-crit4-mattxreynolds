@@ -29,11 +29,20 @@ body {
   line-height: 1.6;
   background: var(--bg);
   color: var(--text);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100dvh;
 }
 
 main {
   max-width: 75rem;
   margin: 0 auto;
+  width: 100%;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 a {
@@ -46,14 +55,39 @@ code {
   border-radius: 0.25rem;
 }
 
+/* This is a single-page site — the nav landmark has nowhere real to point,
+   so it's kept for the spec's nav-landmark check but never shown. */
+header nav {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+header {
+  margin-bottom: 0.75rem;
+}
+
+h1 {
+  margin: 0 0 0.35rem;
+  font-size: 1.85rem;
+  letter-spacing: 0.01em;
+}
+
 .tagline {
   color: var(--text-dim);
-  margin: 0 0 1.5rem;
+  margin: 0;
+  font-size: 0.95rem;
 }
 
 #pads {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   gap: 0.75rem;
   margin: 1.5rem 0;
 }
@@ -72,6 +106,7 @@ code {
   cursor: pointer;
   touch-action: manipulation;
   user-select: none;
+  transition: box-shadow 150ms ease, border-color 150ms ease;
 }
 
 .pad[data-pad="kick"] {
@@ -142,7 +177,7 @@ body.pre-first-gesture .pad {
 #transport {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 0.6rem;
   flex-wrap: wrap;
   margin: 1.5rem 0;
 }
@@ -157,10 +192,35 @@ body.pre-first-gesture .pad {
   cursor: pointer;
 }
 
+/* Play/Stop is the one action that matters most — it gets the visual
+   weight; everything else in the row recedes relative to it.
+   (`#transport #play-stop` outranks `#transport button` above, which
+   otherwise wins on specificity and silently clobbers these.) */
+#transport #play-stop {
+  margin-right: 0.75rem;
+  padding: 0.7rem 1.85rem;
+  min-width: 7rem;
+  text-align: center;
+  font-size: 1.05rem;
+  font-weight: 700;
+  background: color-mix(in srgb, var(--color-play) 14%, var(--bg-elevated));
+  border-color: var(--color-play);
+}
+
 #play-stop[aria-pressed="true"] {
   background: var(--color-play);
   border-color: var(--color-play);
   color: #0d0d12;
+}
+
+/* REC / Clear / Random groove read as one quiet utility cluster, not three
+   separate buttons competing with Play/Stop. */
+#transport #rec,
+#transport #clear,
+#transport #random-groove {
+  padding: 0.45rem 0.9rem;
+  font-size: 0.9rem;
+  color: var(--text-dim);
 }
 
 #rec[aria-pressed="true"] {
@@ -173,7 +233,26 @@ body.pre-first-gesture .pad {
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  color: var(--text-dim);
+  padding: 0.4rem 0.85rem;
+  border: 2px solid var(--border);
+  border-radius: 0.5rem;
+  background: var(--bg-elevated);
+}
+
+.bpm-control #bpm-value {
   color: var(--text);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Ambient is its own independent on/off, not part of the rhythm transport
+   (see PLAN.md) — pushed to the end of the row and shaped like a switch so
+   it reads as a separate kind of control, not a fifth transport button. */
+#transport #ambient-toggle {
+  margin-left: auto;
+  border-radius: 999px;
+  padding: 0.5rem 1.3rem;
+  font-weight: 600;
 }
 
 #grid {
@@ -181,6 +260,10 @@ body.pre-first-gesture .pad {
   flex-direction: column;
   gap: 0.35rem;
   margin: 1.5rem 0;
+  padding: 1rem 1.25rem;
+  border: 2px solid var(--border);
+  border-radius: 0.75rem;
+  background: var(--bg-elevated);
 }
 
 .grid-row {
@@ -228,6 +311,7 @@ body.pre-first-gesture .pad {
   background: var(--bg-step);
   cursor: pointer;
   touch-action: manipulation;
+  transition: background-color 120ms ease, border-color 120ms ease;
 }
 
 .step--on {
@@ -255,6 +339,70 @@ input:focus-visible {
   outline-offset: 2px;
 }
 
+/* Pointer-only hover feedback — a touch device has no hover state to fake,
+   and an already-on step or pressed pad doesn't need a "what if" preview. */
+@media (hover: hover) {
+  .pad:not(.pad--pressed):hover {
+    border-color: var(--pad-color, var(--border));
+    box-shadow: 0 6px 18px -6px color-mix(in srgb, var(--pad-color, var(--color-ambient)) 55%, transparent);
+  }
+
+  .step:not(.step--on):hover {
+    background: color-mix(in srgb, var(--pad-color, var(--text)) 30%, var(--bg-step));
+    border-color: var(--pad-color, var(--border));
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .pad {
+      transition: box-shadow 150ms ease, border-color 150ms ease, transform 150ms ease;
+    }
+
+    .pad:not(.pad--pressed):hover {
+      transform: translateY(-2px);
+    }
+  }
+}
+
+/* Desktop only: scale up sizing to use the extra room a tall, wide viewport
+   gives this layout (the viewport-filling flex centering itself applies at
+   every width — see body/main above). */
+@media (min-width: 601px) {
+  #transport {
+    margin: 2rem 0;
+  }
+
+  #pads {
+    gap: 1.25rem;
+    margin: 2rem 0;
+  }
+
+  .pad {
+    padding: 3.25rem 1rem;
+  }
+
+  .pad-name {
+    font-size: 1.3rem;
+  }
+
+  .pad-key {
+    font-size: 1rem;
+  }
+
+  #grid {
+    gap: 0.9rem;
+    margin: 2.5rem 0;
+  }
+
+  .grid-row-label {
+    font-size: 1rem;
+  }
+
+  .grid-steps {
+    grid-template-columns: repeat(16, minmax(3.25rem, 1fr));
+    gap: 0.55rem;
+  }
+}
+
 @media (max-width: 600px) {
   body {
     padding: 1rem;
@@ -274,8 +422,11 @@ input:focus-visible {
   }
 
   #pads {
-    grid-template-columns: repeat(2, 1fr);
     margin: 1rem 0;
+  }
+
+  #grid {
+    padding: 0.75rem 0.85rem;
   }
 
   .pad {

@@ -30,25 +30,6 @@ import { PAD_DEFS } from "../scripts/pad-defs";
       <button type="button" id="ambient-toggle" aria-pressed="false">Ambient: Off</button>
     </section>
 
-    <section id="pads" aria-label="Drum pads">
-      {
-        PAD_DEFS.map((pad) => (
-          <button
-            type="button"
-            class="pad"
-            data-pad={pad.id}
-            aria-label={`${pad.label} drum — key ${pad.key}`}
-            aria-pressed="false"
-          >
-            <span class="pad-name">{pad.label}</span>
-            <span class="pad-key" aria-hidden="true">
-              {pad.key}
-            </span>
-          </button>
-        ))
-      }
-    </section>
-
     <section id="grid" aria-label="Step sequencer grid">
       {
         PAD_DEFS.map((pad) => (
@@ -67,6 +48,25 @@ import { PAD_DEFS } from "../scripts/pad-defs";
               ))}
             </div>
           </div>
+        ))
+      }
+    </section>
+
+    <section id="pads" aria-label="Drum pads">
+      {
+        PAD_DEFS.map((pad) => (
+          <button
+            type="button"
+            class="pad"
+            data-pad={pad.id}
+            aria-label={`${pad.label} drum — key ${pad.key}`}
+            aria-pressed="false"
+          >
+            <span class="pad-name">{pad.label}</span>
+            <span class="pad-key" aria-hidden="true">
+              {pad.key}
+            </span>
+          </button>
         ))
       }
     </section>
