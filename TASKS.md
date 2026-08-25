@@ -27,7 +27,7 @@ _(empty)_
 
 ## In progress
 
-16. Rebalance the transport bar at wide viewports — see Polish for scope.
+17. Differentiate REC from Clear / Random groove — see Polish for scope.
 
 ## Blocked
 
@@ -54,6 +54,7 @@ _(empty)_
     **Stopped here per the brief** — awaiting listening feedback before any
     further ambient work.
 15. Style the BPM range input — 04e90b2
+16. Rebalance the transport bar at wide viewports — 845e6df
 
 ## Polish
 
@@ -61,17 +62,6 @@ Scope for this pass: desktop (1920×1080) only, visual/CSS only — no layout
 structure or DOM order changes (grid-above-pads from `cbad5d7` stands).
 Phone (390×844) still needs a look before ship, but that's a separate pass,
 not folded into this one.
-
-16. **Rebalance the transport bar at wide viewports.** The Ambient toggle's
-    `margin-left: auto` leaves a large dead gap between it and the BPM
-    control on a 1920px-wide bar. Close that gap — e.g. give the bar a
-    deliberate two-cluster layout (transport actions left, Ambient right,
-    with controlled spacing) or another treatment that reads as designed
-    rather than as leftover space.
-    - Done when: the transport bar looks balanced and intentional at
-      1920×1080, not stretched.
-    - Acceptance: verified visually in `agent-browser`; invariants stay
-      green (no DOM changes expected, styling only).
 
 17. **Differentiate REC from Clear / Random groove.** All three currently
     share the same dim, bordered box, so REC — a stateful, toggleable
