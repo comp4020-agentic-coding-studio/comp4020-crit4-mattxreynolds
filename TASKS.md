@@ -61,5 +61,19 @@ _(empty)_
 
 ## Polish
 
-_(empty — desktop visual pass complete; phone (390×844) polish is a separate
-pass, not yet started)_
+Phone (390×844) polish pass. Landed as direct commits rather than being
+scoped into numbered tasks first (unlike the desktop pass at `dce4d7d`) —
+recorded here after the fact during a final review so the log matches
+reality.
+
+20. Pad redesign (full-coverage gradient fill, key badge as a corner chip),
+    revert the grid tile's surface gradient/shadow, fix the BPM slider's
+    track/thumb centering and value-width jitter — 5e7cd52
+21. Rebuild the phone transport as an explicit grid (Play prominent, REC/
+    Clear/Random groove as an equal row, BPM + Ambient full-width) and the
+    phone step grid to fit without horizontal scroll (drop the per-row
+    label, tint off-steps with the row's own pad color instead) — 6834c6b.
+    Shrinks the 64 step buttons to ~19×19px, under the WCAG 2.2 AA 24px
+    touch-target minimum (axe-confirmed at 390×844) — kept deliberately,
+    see PLAN.md's Layout section for the rationale (Recording via the pads
+    is the intended phone editing path; direct step-tapping is secondary).

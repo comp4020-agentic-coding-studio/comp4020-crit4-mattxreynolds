@@ -145,19 +145,32 @@ look, since no audio plays before that first gesture.
 
 **Layout.** Dark theme; each instrument gets one consistent color across its
 pad and its grid row. Page structure, top to bottom: header (title + nav) →
-transport bar (Play/Stop, REC, Clear, random-groove, BPM) → pads → step grid
-→ **ambient bar**. The ambient bar is a persistent strip pinned to the
-bottom of the viewport (`position: sticky` or `fixed`, with matching
-bottom-padding on the content above it so nothing sits underneath it) —
-always reachable without scrolling, on both viewports. It holds the single
-"Ambient" on/off toggle; on phone it stays the same compact strip, no
-wrapping needed for one control. Page-level vertical
-scrolling is fine and expected on phone (pads + grid + everything else won't
-all fit above the fold); page-level *horizontal* scrolling is not — the
-16-step grid keeps all 16 steps per row but scrolls horizontally within its
-own container instead. Watch for mobile browser chrome (address bar,
-gesture bar) overlapping a fixed bottom bar — verify in `agent-browser` at
-the real 390×844 viewport, not just assumed from CSS.
+transport bar (Play/Stop, REC, Clear, random-groove, BPM, **and the Ambient
+toggle**) → step grid → pads. Two decisions here superseded the original
+plan during the desktop polish pass and were never written back until this
+review: the grid moved above the pads (`cbad5d7`, "grid moved above the
+pads and wrapped in its own tile") — the pads are still the primary
+*interaction*, but the grid is the primary thing you look at first — and
+the ambient toggle moved off a fixed bottom bar into the transport row
+itself (`6ad34cd`, "drop the fixed footer bar"), so there is no
+persistent bottom strip any more. Page-level vertical scrolling is fine and
+expected on phone; page-level *horizontal* scrolling is not. The phone step
+grid no longer scrolls horizontally at all — steps shrink to fit all 16 in
+view instead (`6834c6b`).
+
+That shrink has a known, accepted cost: at 390px wide, the 64 step buttons
+land at ~19×19px, under the WCAG 2.2 AA 24×24px minimum target size (an
+`agent-browser a11y`/axe audit at 390×844 confirms this as a serious
+violation) — and the math doesn't leave room to fix it without giving up
+something else: 16 columns at 24px each need ≥384px of pure track width
+with zero gap, which is already the whole phone viewport before any page
+margin. Kept as-is deliberately rather than reverting to horizontal scroll
+or wrapping to two rows per instrument, because direct step-tapping on
+phone isn't the only way to edit the grid: Recording via the four pads
+(each comfortably touch-sized) reaches every step without needing to hit a
+19px target, so the small steps are a secondary, best-effort interaction
+rather than the only path — precise about which control on phone is
+supposed to carry the load, not an oversight.
 
 **Testing approach.** Web Audio output itself isn't observable in jsdom, so
 automated tests are either (a) structural/DOM assertions against the built
