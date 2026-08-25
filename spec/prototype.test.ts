@@ -102,3 +102,12 @@ describe("transport + grid (task 3)", () => {
     expect(new Set(padIds)).toEqual(new Set(["kick", "snare", "hihat", "perc"]));
   });
 });
+
+describe("preset grooves + random-groove button (task 5)", () => {
+  it("has a labeled random-groove control", () => {
+    const button = home.querySelector("#random-groove");
+    expect(button, "no #random-groove control").toBeTruthy();
+    expect(button?.tagName).toBe("BUTTON");
+    expect(button?.textContent?.trim()).toBeTruthy();
+  });
+});
