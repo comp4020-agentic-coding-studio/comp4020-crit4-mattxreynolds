@@ -38,3 +38,17 @@ export function randomIntervalSeconds(
 ): number {
   return minSeconds + random() * (maxSeconds - minSeconds);
 }
+
+/**
+ * A fixed, sine-derived pan position for one event — never a sweep, never
+ * shared across events. Each call picks a random angle around the circle
+ * and projects it onto the stereo axis, matching the Pd reference's
+ * per-event static placement.
+ */
+export function ambientPanPosition(
+  spread: number,
+  random: () => number = Math.random,
+): number {
+  const angle = random() * Math.PI * 2;
+  return Math.sin(angle) * spread;
+}
