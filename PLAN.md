@@ -6,10 +6,12 @@ A browser-based drum-pad instrument: four synthesized drum pads are the
 primary, immediate interaction, and a 16-step grid sits underneath as both a
 recording target and a directly-editable pattern — so you can either drum a
 groove in live or build one by clicking, and switch between the two freely. A
-continuous ambient/spatial layer lives on the same screen, always active
-alongside the rhythm: its stereo position is permanently in motion (an
-automatic panning sweep, never a static position), and the player's gestures
-shape that motion's character and tone rather than pinning it in place.
+sparse generative ambient layer lives on the same screen, its own on/off
+independent of the rhythm: isolated synthesized tones surface occasionally
+and unpredictably, each blooming briefly at its own fixed stereo position
+before fading, never a continuous pad and never locked to the sequencer's
+grid — it stays clearly subordinate to the sequencer, coloring the space
+around it rather than competing with it.
 
 ## Core idea
 
@@ -24,15 +26,14 @@ shape that motion's character and tone rather than pinning it in place.
   - **Click:** toggle any step directly, loop stopped or running.
   There is no separate "edit mode" — clicking always works, recording is an
   alternative way to fill the same grid.
-- **Ambient layer (secondary mechanic, same screen, always live with the
-  loop):** a continuously playing synthesized bed (e.g. detuned
-  oscillators through a filter) whose stereo pan is **always moving** —
-  an automatic sweep that never sits still while the layer is audible. The
-  player's gesture(s) (an XY-style control, plus an intensity control) shape
-  the sweep's speed/width and the tone/loudness, rather than setting a fixed
-  pan value. Exact axis-to-parameter mapping is a build-time decision, not
-  fixed here. It has its own on/off, independent of the rhythm transport —
-  it can run alone, alongside the loop, or not at all.
+- **Ambient layer (secondary mechanic, same screen, generative field):** a
+  sparse field of isolated synthesized tones, asynchronous and unlocked from
+  the sequencer's grid — long unpredictable gaps, then a single note blooms
+  in, lingers briefly, and fades. Never a continuous pad, never audibly
+  rhythmic. Each event gets its own fixed stereo position (not a sweep). It
+  has one on/off control, independent of the rhythm transport — it can run
+  alone, alongside the loop, or not at all. No other controls are exposed to
+  the player for the first version; tuning lives in code (see below).
 - **One screen, one instrument:** pads, grid, and ambient control are all
   visible and live together — the ambient layer is not a separate tab or
   mode. If it ever feels like a second instrument bolted on, it gets cut
@@ -57,9 +58,12 @@ shape that motion's character and tone rather than pinning it in place.
 
 ## Stretch (only if core is solid with time to spare)
 
-- A second ambient "space" preset (different tone/sweep character).
+- A second ambient character/preset, once the generative field's first pass
+  has been validated by ear.
 - Per-pad volume.
-- Keyboard control (arrow-key nudge) for the ambient layer.
+- Promoting one of the ambient layer's tuning parameters (e.g. density,
+  spread, drift) to a real second user-facing control — deferred until
+  listening feedback on the first pass identifies which one is worth it.
 
 ## Design & technical decisions
 
@@ -94,15 +98,41 @@ MDN's simple-synth example):
 is the only way to clear a step, so recording can't accidentally erase
 existing work. Hits quantize to the nearest step boundary.
 
-**Ambient layer.** Two detuned oscillators → lowpass filter → `StereoPannerNode`
-→ gain. An LFO permanently drives the panner (never a static value) whenever
-the layer is audible. It has its own on/off toggle, independent of the
-rhythm Play/Stop, so it can run alone, with the loop, or not at all. The
-player's drag control maps X → LFO rate (sweep speed) and Y → filter cutoff
-(brightness); a separate intensity control maps to LFO depth (stereo width)
-and/or output level. Full keyboard parity for this one control (e.g.
-arrow-key nudging) is a stretch, not core — the pads and grid already carry
-full keyboard playability.
+**Ambient layer.** A generative field of isolated "bloom" voices, not a
+continuous pad. Each event: a saw-ish oscillator (through a lowpass filter,
+with a restrained two-operator FM colour layered in) with its own
+attack → hold → release envelope (~300ms / 1–4s / ~700ms — smooth
+`setTargetAtTime`/linear ramps throughout, no clicks), a subtle ~4Hz/±0.075
+semitone vibrato so it never sits perfectly static, and its own fixed
+`StereoPannerNode` position for that event only (sine/cosine-derived, not a
+sweep). Voices are one-shot: built, played, and left to be garbage-collected
+after their release finishes, the same lifecycle pattern `drums.ts` already
+uses for one-shot pad hits.
+
+Events are scheduled asynchronously and independently of the sequencer's
+grid/tempo — a timer picks the next gap randomly within a configured
+min/max range (reference behaviour was 10–40s; the shipped starting value is
+shorter so it's auditionable without a long wait, see the tuning-constants
+module) and is never quantized to a step boundary, so no repeating pattern
+against the beat is audible.
+
+**Ambient pitch set.** The sequencer's four voices (kick/snare/hihat/perc)
+are all unpitched, so there is no existing scale to inherit from the
+pattern. Rather than inventing a harmony engine, each ambient event picks
+one note at random from a small pentatonic collection (a handful of scale
+degrees around a fixed root, spanning a couple of octaves via a configured
+octave-range) — pentatonic because any two notes from it sound consonant
+together with no voice-leading logic required, which matches "simplest
+relationship that makes the layers feel connected" without the sequencer
+having any pitch of its own to connect to.
+
+It has one on/off control ("Ambient"), independent of the rhythm Play/Stop,
+so it can run alone, with the loop, or not at all. No other parameter is
+exposed as a UI control in this first pass — attack/release, filter
+character, vibrato, FM index/ratio, octave range, stereo spread, and event
+spacing bounds are developer-facing tuning constants in one module, not
+instrument controls, until listening feedback says one of them earns a real
+control (see Stretch).
 
 **Audio lifecycle.** One `AudioContext`, created once, resumed lazily on the
 first user gesture anywhere in the UI (a pad tap, a grid click, a transport
@@ -116,11 +146,9 @@ transport bar (Play/Stop, REC, Clear, random-groove, BPM) → pads → step grid
 → **ambient bar**. The ambient bar is a persistent strip pinned to the
 bottom of the viewport (`position: sticky` or `fixed`, with matching
 bottom-padding on the content above it so nothing sits underneath it) —
-always reachable without scrolling, on both viewports. It holds the on/off
-toggle, the XY drag control, and the intensity control in a single compact
-row on desktop; on phone these wrap/stack within the same bar rather than
-growing tall, and the drag control shrinks (down to roughly 100–120px) so
-the bar stays a strip, not another full section. Page-level vertical
+always reachable without scrolling, on both viewports. It holds the single
+"Ambient" on/off toggle; on phone it stays the same compact strip, no
+wrapping needed for one control. Page-level vertical
 scrolling is fine and expected on phone (pads + grid + everything else won't
 all fit above the fold); page-level *horizontal* scrolling is not — the
 16-step grid keeps all 16 steps per row but scrolls horizontally within its
