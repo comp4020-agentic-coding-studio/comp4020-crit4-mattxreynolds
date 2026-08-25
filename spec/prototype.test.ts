@@ -195,7 +195,7 @@ describe("accessibility & keyboard pass (task 9)", () => {
     // needs every reachable control (pads, steps, transport buttons) to show
     // one too — checking the bundled CSS for a rule that isn't scoped to
     // #ambient-xy alone catches a regression back to that narrower rule.
-    const broadFocusRule = /(^|[,\s])button:focus-visible/.test(css);
+    const broadFocusRule = /\bbutton:focus-visible\b/.test(css);
     expect(
       broadFocusRule,
       "no button:focus-visible rule in the shipped CSS — pads/steps/transport buttons have no visible focus state",

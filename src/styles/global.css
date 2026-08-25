@@ -253,6 +253,8 @@ code {
   cursor: grab;
 }
 
+button:focus-visible,
+input:focus-visible,
 .ambient-xy:focus-visible {
   outline: 3px solid var(--focus);
   outline-offset: 2px;
