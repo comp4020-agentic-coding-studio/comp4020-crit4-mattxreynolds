@@ -11,4 +11,11 @@ export default defineConfig({
   base: "/comp4020-crit4-mattxreynolds",
   build: { format: "file" },
   compressHTML: true,
+  // Vite inlines built scripts under 4kb straight into the HTML instead of
+  // emitting a `.js` file (it reuses assetsInlineLimit, meant for images).
+  // Our own spec tests scan shipped `.js` files for `AudioContext`, so a
+  // small bundle would silently pass that scan by disappearing into the
+  // HTML rather than by containing the thing being checked for. Force every
+  // script to its own file so "shipped JS" always means a real .js asset.
+  vite: { build: { assetsInlineLimit: 0 } },
 });
