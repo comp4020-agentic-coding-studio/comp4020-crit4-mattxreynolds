@@ -40,7 +40,7 @@ export const VIBRATO_RATE_HZ = 4;
 export const VIBRATO_DEPTH_SEMITONES = 0.075;
 
 /** Peak gain per voice, well under the drum voices' headroom. */
-export const AMBIENT_MASTER_LEVEL = 0.18;
+export const AMBIENT_MASTER_LEVEL = 0.05;
 
 /** How far a per-event stereo position can sit from center (task 13). 1 = full L/R extremes. */
 export const STEREO_SPREAD = 0.7;
