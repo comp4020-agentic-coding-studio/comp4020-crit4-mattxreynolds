@@ -143,3 +143,60 @@ a {
 .step--current {
   box-shadow: 0 0 0 2px #0b5fff inset;
 }
+
+#ambient {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin: 1.5rem auto;
+  max-width: 75rem;
+  padding: 0 2rem;
+}
+
+#ambient-toggle {
+  padding: 0.5rem 1rem;
+  border: 2px solid #1a1a1a;
+  border-radius: 0.5rem;
+  background: #f4f4f4;
+  font: inherit;
+  cursor: pointer;
+}
+
+#ambient-toggle[aria-pressed="true"] {
+  background: #6b21d8;
+  border-color: #6b21d8;
+  color: #fff;
+}
+
+.ambient-xy {
+  position: relative;
+  width: 8rem;
+  height: 8rem;
+  border: 2px solid #1a1a1a;
+  border-radius: 0.5rem;
+  background: #f4f4f4;
+  touch-action: none;
+  cursor: grab;
+}
+
+.ambient-xy:focus-visible {
+  outline: 3px solid #0b5fff;
+  outline-offset: 2px;
+}
+
+.ambient-xy-thumb {
+  position: absolute;
+  width: 0.9rem;
+  height: 0.9rem;
+  border-radius: 50%;
+  background: #6b21d8;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.ambient-intensity {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}

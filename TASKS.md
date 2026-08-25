@@ -16,20 +16,6 @@ something a test can't see.
 
 ## Backlog
 
-7. **Ambient layer.** Two detuned oscillators → lowpass filter →
-   `StereoPannerNode` → gain, with an LFO permanently driving the pan
-   whenever the layer is audible. Its own on/off toggle, independent of the
-   rhythm Play/Stop. A drag-based XY control (X → LFO rate, Y → filter
-   cutoff) plus an intensity control (LFO depth / output level).
-   - Done when: the ambient layer is audible only when its own toggle is on
-     (regardless of whether the rhythm is playing), its stereo position is
-     continuously sweeping on its own (confirm it never parks in one spot
-     even with the control untouched), and dragging the control audibly
-     changes speed/brightness.
-   - Acceptance: DOM test that the on/off toggle, drag control, and
-     intensity control exist, are labeled, and are focusable; audible
-     behavior verified by ear, including running with the rhythm stopped.
-
 8. **Responsive layout pass.** Dark theme; consistent color per instrument
    across its pad and grid row. Build the page structure from `PLAN.md`'s
    layout decision: header → transport bar (Play/Stop, REC, Clear,
@@ -87,6 +73,7 @@ _(empty)_
 4. Click-to-toggle step editing — 6736ac7
 5. Preset grooves + random-groove button — c7e4bd5
 6. Live recording into the grid — 7e563cc
+7. Ambient layer — PENDING_COMMIT
 
 ## Polish
 

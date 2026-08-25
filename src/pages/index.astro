@@ -74,6 +74,20 @@ import { PAD_DEFS } from "../scripts/pad-defs";
       }
     </section>
   </main>
-  <section id="ambient" aria-label="Ambient layer controls"></section>
+  <section id="ambient" aria-label="Ambient layer controls">
+    <button type="button" id="ambient-toggle" aria-pressed="false">Ambient: Off</button>
+    <div
+      id="ambient-xy"
+      class="ambient-xy"
+      tabindex="0"
+      aria-label="Ambient sweep speed and brightness — drag to adjust"
+    >
+      <div class="ambient-xy-thumb" aria-hidden="true"></div>
+    </div>
+    <span class="ambient-intensity">
+      <label for="ambient-intensity">Intensity</label>
+      <input type="range" id="ambient-intensity" min="0" max="100" step="1" value="50" />
+    </span>
+  </section>
   <script src="../scripts/main.ts"></script>
 </Layout>
