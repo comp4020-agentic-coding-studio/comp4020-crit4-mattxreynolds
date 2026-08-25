@@ -16,17 +16,6 @@ something a test can't see.
 
 ## Backlog
 
-2. **Drum pads.** Implement the four synthesized voices (kick/snare/hi-hat/
-   perc per `PLAN.md`'s synthesis spec) and wire them to four pad buttons,
-   each triggerable by pointer, touch, and a keyboard key (A/S/D/F).
-   - Done when: pressing/tapping/clicking each pad makes a distinct,
-     recognizable drum sound and shows a visible pressed state.
-   - Acceptance: each pad is a real `<button>` with an `aria-label` and
-     visible key hint; `crit-4.test.ts`'s "makes sound live via the Web Audio
-     API" assertion turns green; the "reachable without a mouse" assertion
-     stays green. Verify by ear in the dev server — a test can't confirm a
-     kick sounds like a kick.
-
 3. **Sequencer clock + grid state + transport.** A lookahead scheduler at
    16 steps and an adjustable BPM (default 120, range ~60–180, live
    range/number input the scheduler reads every tick), a shared grid data
@@ -126,7 +115,16 @@ something a test can't see.
 
 ## In progress
 
-_(empty — WIP limit 1)_
+2. **Drum pads.** Implement the four synthesized voices (kick/snare/hi-hat/
+   perc per `PLAN.md`'s synthesis spec) and wire them to four pad buttons,
+   each triggerable by pointer, touch, and a keyboard key (A/S/D/F).
+   - Done when: pressing/tapping/clicking each pad makes a distinct,
+     recognizable drum sound and shows a visible pressed state.
+   - Acceptance: each pad is a real `<button>` with an `aria-label` and
+     visible key hint; `crit-4.test.ts`'s "makes sound live via the Web Audio
+     API" assertion turns green; the "reachable without a mouse" assertion
+     stays green. Verify by ear in the dev server — a test can't confirm a
+     kick sounds like a kick.
 
 ## Blocked
 
