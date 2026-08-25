@@ -3,7 +3,8 @@
 
   --bg: #0d0d12;
   --bg-elevated: #17171f;
-  --bg-step: #1f1f2b;
+  --bg-step: #2a2a3c;
+  --border-step: #40405c;
   --text: #f0f0f5;
   --text-dim: #9a9aa8;
   --border: #2c2c3a;
@@ -381,7 +382,7 @@ body.pre-first-gesture .pad {
   width: 100%;
   aspect-ratio: 1;
   padding: 0;
-  border: 1px solid var(--border);
+  border: 1px solid var(--border-step);
   border-radius: 0.2rem;
   background: var(--bg-step);
   cursor: pointer;
