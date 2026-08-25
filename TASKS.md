@@ -27,14 +27,7 @@ _(empty)_
 
 ## In progress
 
-14. **Pitch integration.** Pure `pickAmbientPitch`-style function drawing
-    from the pentatonic collection decided in `PLAN.md`, respecting the
-    configured octave range; wired into the scheduler so each event picks
-    its own note. **Done when:** the pitch-selection function is
-    unit-tested (always returns a collection member, respects octave
-    bounds); `pnpm check` green. **Stop here** — per the brief, this is the
-    checkpoint for listening feedback before any further ambient work
-    (visual polish, a second control, a second preset).
+_(empty — stopped per task 14's checkpoint; see Done)_
 
 ## Blocked
 
@@ -57,6 +50,9 @@ _(empty)_
     drone) — a7d39fb
 12. Generative scheduling, wired to the Ambient toggle — 91634d2
 13. Static per-event stereo field — d06cb73
+14. Ambient pitch integration (pentatonic pick per bloom) — 558d49c.
+    **Stopped here per the brief** — awaiting listening feedback before any
+    further ambient work.
 
 ## Polish
 
