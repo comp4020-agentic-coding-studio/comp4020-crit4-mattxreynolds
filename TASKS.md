@@ -16,16 +16,6 @@ something a test can't see.
 
 ## Backlog
 
-6. **Live recording into the grid.** REC toggle arms recording (starting the
-   sequencer if it isn't running); pad hits while armed mark the nearest
-   step true for that pad's row and never clear a step. Disarming REC stops
-   recording without stopping playback.
-   - Done when: drumming a pattern while REC is armed reproduces it back
-     correctly on loop.
-   - Acceptance: unit test for "nearest step index from elapsed time";
-     verified by ear/eye that recorded hits land on the step you actually
-     played.
-
 7. **Ambient layer.** Two detuned oscillators → lowpass filter →
    `StereoPannerNode` → gain, with an LFO permanently driving the pan
    whenever the layer is audible. Its own on/off toggle, independent of the
@@ -96,6 +86,7 @@ _(empty)_
 3. Sequencer clock + grid state + transport — bf0f8f1
 4. Click-to-toggle step editing — 6736ac7
 5. Preset grooves + random-groove button — c7e4bd5
+6. Live recording into the grid — 7e563cc
 
 ## Polish
 
