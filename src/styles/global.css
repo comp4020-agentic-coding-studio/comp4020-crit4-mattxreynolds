@@ -101,14 +101,18 @@ h1 {
 }
 
 .pad {
+  position: relative;
   display: flex;
-  flex-direction: column;
   align-items: center;
-  gap: 0.25rem;
+  justify-content: center;
   padding: 1.5rem 0.5rem;
-  border: 2px solid var(--pad-color, var(--border));
-  border-radius: 0.5rem;
-  background: var(--surface);
+  border: 2px solid color-mix(in srgb, var(--pad-color, var(--border)) 35%, transparent);
+  border-radius: 0.75rem;
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--pad-color, var(--color-ambient)) 42%, var(--bg-elevated)),
+    color-mix(in srgb, var(--pad-color, var(--color-ambient)) 12%, var(--bg-elevated))
+  );
   box-shadow: var(--shadow-elevated);
   color: var(--text);
   font: inherit;
@@ -168,10 +172,15 @@ body.pre-first-gesture .pad {
 }
 
 .pad-key {
+  position: absolute;
+  top: 0.65rem;
+  left: 0.65rem;
   font-size: 0.85rem;
-  color: var(--pad-color, var(--text-dim));
-  border: 1px solid var(--pad-color, var(--border));
-  border-radius: 0.25rem;
+  line-height: 1.4;
+  color: var(--text);
+  background: color-mix(in srgb, black 35%, transparent);
+  border: 1px solid color-mix(in srgb, var(--pad-color, var(--border)) 70%, white 15%);
+  border-radius: 0.35rem;
   padding: 0 0.4rem;
 }
 
@@ -184,6 +193,7 @@ body.pre-first-gesture .pad {
 
 .pad--pressed .pad-key {
   color: #0d0d12;
+  background: color-mix(in srgb, white 35%, transparent);
   border-color: #0d0d12;
 }
 
@@ -264,19 +274,32 @@ body.pre-first-gesture .pad {
 }
 
 .bpm-control #bpm-value {
+  display: inline-block;
+  width: 3ch;
   color: var(--text);
   font-variant-numeric: tabular-nums;
+  text-align: right;
 }
 
 /* Custom range styling to replace the browser-default track/thumb, which
    otherwise clashes with the rest of the dark/neon system. --bpm-fill is
    kept in sync with the current value by transport.ts on load and on
    input, since a native range has no built-in way to paint "how far
-   along" the value is. */
+   along" the value is. The track is drawn on an explicit
+   ::-webkit-slider-runnable-track pseudo (rather than the input's own
+   background) so the thumb's centering margin is computed against a
+   track of a known height, instead of drifting with the input's own
+   line-box height. */
 #bpm {
   appearance: none;
   -webkit-appearance: none;
   width: 8rem;
+  height: 1rem;
+  background: transparent;
+  cursor: pointer;
+}
+
+#bpm::-webkit-slider-runnable-track {
   height: 0.4rem;
   border-radius: 999px;
   background: linear-gradient(
@@ -284,7 +307,6 @@ body.pre-first-gesture .pad {
     var(--color-ambient) var(--bpm-fill, 50%),
     var(--bg-step) var(--bpm-fill, 50%)
   );
-  cursor: pointer;
 }
 
 #bpm::-webkit-slider-thumb {
@@ -321,28 +343,13 @@ body.pre-first-gesture .pad {
 }
 
 /* Ambient is its own independent on/off, not part of the rhythm transport
-   (see PLAN.md) — set apart with a divider and shaped like a switch so it
-   reads as a separate kind of control, not a fifth transport button.
-   `margin-left: auto` previously pushed this all the way to the far edge
-   of the transport bar, which at wide viewports left a wide dead gap (the
-   bar is only ~1200px of content in a container that can be much wider);
-   a fixed margin plus a divider keeps it visually set apart without
-   depending on how much space happens to be left over. */
+   (see PLAN.md) — pushed to the end of the row and shaped like a switch so
+   it reads as a separate kind of control, not a fifth transport button. */
 #transport #ambient-toggle {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.85rem;
-  margin-left: 2rem;
+  margin-left: auto;
   border-radius: 999px;
   padding: 0.5rem 1.3rem;
   font-weight: 600;
-}
-
-#transport #ambient-toggle::before {
-  content: "";
-  width: 1px;
-  align-self: stretch;
-  background: var(--border);
 }
 
 #grid {
@@ -353,8 +360,7 @@ body.pre-first-gesture .pad {
   padding: 1rem 1.25rem;
   border: 2px solid var(--border);
   border-radius: 0.75rem;
-  background: var(--surface);
-  box-shadow: var(--shadow-elevated);
+  background: var(--bg-elevated);
 }
 
 .grid-row {
