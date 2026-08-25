@@ -60,3 +60,72 @@ a {
   color: #fff;
   border-color: #fff;
 }
+
+#transport {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin: 1.5rem 0;
+}
+
+#transport button {
+  padding: 0.5rem 1rem;
+  border: 2px solid #1a1a1a;
+  border-radius: 0.5rem;
+  background: #f4f4f4;
+  font: inherit;
+  cursor: pointer;
+}
+
+#play-stop[aria-pressed="true"] {
+  background: #0b5fff;
+  border-color: #0b5fff;
+  color: #fff;
+}
+
+.bpm-control {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+#grid {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  margin: 1.5rem 0;
+  overflow-x: auto;
+}
+
+.grid-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.grid-row-label {
+  width: 4rem;
+  flex-shrink: 0;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.grid-steps {
+  display: grid;
+  grid-template-columns: repeat(16, 1.5rem);
+  gap: 0.25rem;
+}
+
+.step {
+  width: 1.5rem;
+  height: 1.5rem;
+  border: 1px solid #999;
+  border-radius: 0.2rem;
+  background: #f4f4f4;
+}
+
+.step--current {
+  border-color: #0b5fff;
+  background: #cfe0ff;
+}
