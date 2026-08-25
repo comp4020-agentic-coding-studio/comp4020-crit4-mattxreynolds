@@ -17,20 +17,27 @@ afterEach(() => {
 });
 
 describe("AmbientScheduler", () => {
-  it("does not fire before the scheduled interval elapses", () => {
+  it("fires immediately when started — no delay before the first event", () => {
+    const onEvent = vi.fn();
+    const scheduler = new AmbientScheduler(onEvent, fixedMidRandom);
+    scheduler.start();
+    expect(onEvent).toHaveBeenCalledTimes(1);
+  });
+
+  it("does not fire the second event before the scheduled interval elapses", () => {
     const onEvent = vi.fn();
     const scheduler = new AmbientScheduler(onEvent, fixedMidRandom);
     scheduler.start();
     vi.advanceTimersByTime(MID_DELAY_MS - 1);
-    expect(onEvent).not.toHaveBeenCalled();
+    expect(onEvent).toHaveBeenCalledTimes(1);
   });
 
-  it("fires once the scheduled interval elapses", () => {
+  it("fires the second event once the scheduled interval elapses", () => {
     const onEvent = vi.fn();
     const scheduler = new AmbientScheduler(onEvent, fixedMidRandom);
     scheduler.start();
     vi.advanceTimersByTime(MID_DELAY_MS);
-    expect(onEvent).toHaveBeenCalledTimes(1);
+    expect(onEvent).toHaveBeenCalledTimes(2);
   });
 
   it("keeps rescheduling fresh intervals after firing", () => {
@@ -39,7 +46,7 @@ describe("AmbientScheduler", () => {
     scheduler.start();
     vi.advanceTimersByTime(MID_DELAY_MS);
     vi.advanceTimersByTime(MID_DELAY_MS);
-    expect(onEvent).toHaveBeenCalledTimes(2);
+    expect(onEvent).toHaveBeenCalledTimes(3);
   });
 
   it("never lets an interval stray outside the configured bounds", () => {
@@ -48,14 +55,15 @@ describe("AmbientScheduler", () => {
     const alternating = () => (call++ % 2 === 0 ? 0 : 1);
     const scheduler = new AmbientScheduler(onEvent, alternating);
     scheduler.start();
-    vi.advanceTimersByTime(MIN_EVENT_INTERVAL_SECONDS * 1000 - 1);
-    expect(onEvent).not.toHaveBeenCalled();
-    vi.advanceTimersByTime(1);
     expect(onEvent).toHaveBeenCalledTimes(1);
-    vi.advanceTimersByTime(MAX_EVENT_INTERVAL_SECONDS * 1000 - 1);
+    vi.advanceTimersByTime(MIN_EVENT_INTERVAL_SECONDS * 1000 - 1);
     expect(onEvent).toHaveBeenCalledTimes(1);
     vi.advanceTimersByTime(1);
     expect(onEvent).toHaveBeenCalledTimes(2);
+    vi.advanceTimersByTime(MAX_EVENT_INTERVAL_SECONDS * 1000 - 1);
+    expect(onEvent).toHaveBeenCalledTimes(2);
+    vi.advanceTimersByTime(1);
+    expect(onEvent).toHaveBeenCalledTimes(3);
   });
 
   it("starting twice never creates a second concurrent schedule", () => {
@@ -63,8 +71,9 @@ describe("AmbientScheduler", () => {
     const scheduler = new AmbientScheduler(onEvent, fixedMidRandom);
     scheduler.start();
     scheduler.start();
-    vi.advanceTimersByTime(MID_DELAY_MS);
     expect(onEvent).toHaveBeenCalledTimes(1);
+    vi.advanceTimersByTime(MID_DELAY_MS);
+    expect(onEvent).toHaveBeenCalledTimes(2);
   });
 
   it("reports isRunning", () => {
@@ -80,21 +89,24 @@ describe("AmbientScheduler", () => {
     const onEvent = vi.fn();
     const scheduler = new AmbientScheduler(onEvent, fixedMidRandom);
     scheduler.start();
+    expect(onEvent).toHaveBeenCalledTimes(1);
     scheduler.stop();
     vi.advanceTimersByTime(MAX_EVENT_INTERVAL_SECONDS * 1000 * 10);
-    expect(onEvent).not.toHaveBeenCalled();
+    expect(onEvent).toHaveBeenCalledTimes(1);
   });
 
-  it("restarting after stop schedules a fresh full interval, not the stale remainder", () => {
+  it("restarting after stop fires immediately again, not the stale remainder", () => {
     const onEvent = vi.fn();
     const scheduler = new AmbientScheduler(onEvent, fixedMidRandom);
     scheduler.start();
+    expect(onEvent).toHaveBeenCalledTimes(1);
     vi.advanceTimersByTime(MID_DELAY_MS / 2);
     scheduler.stop();
     scheduler.start();
+    expect(onEvent).toHaveBeenCalledTimes(2);
     vi.advanceTimersByTime(MID_DELAY_MS - 1);
-    expect(onEvent).not.toHaveBeenCalled();
+    expect(onEvent).toHaveBeenCalledTimes(2);
     vi.advanceTimersByTime(1);
-    expect(onEvent).toHaveBeenCalledTimes(1);
+    expect(onEvent).toHaveBeenCalledTimes(3);
   });
 });
