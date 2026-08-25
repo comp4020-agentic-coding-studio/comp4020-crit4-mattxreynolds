@@ -2,6 +2,8 @@
 // timing/pitch/FM math is unit-testable; ambient-voice.ts wires these into
 // actual Web Audio nodes.
 
+import { OCTAVE_RANGE, PENTATONIC_INTERVALS, ROOT_FREQUENCY_HZ } from "./ambient-config";
+
 export interface EnvelopeSchedule {
   attackEnd: number;
   holdEnd: number;
@@ -51,4 +53,18 @@ export function ambientPanPosition(
 ): number {
   const angle = random() * Math.PI * 2;
   return Math.sin(angle) * spread;
+}
+
+/**
+ * Picks one note for a bloom: a scale degree from the configured
+ * pentatonic collection, shifted up by a random whole number of octaves
+ * within OCTAVE_RANGE. Draws `random()` twice — once for the degree, once
+ * for the octave — so each event's pitch is independent of its pan and
+ * hold time.
+ */
+export function pickAmbientPitch(random: () => number = Math.random): number {
+  const degreeIndex = Math.floor(random() * PENTATONIC_INTERVALS.length);
+  const octaveOffset = Math.floor(random() * OCTAVE_RANGE);
+  const semitones = PENTATONIC_INTERVALS[degreeIndex] + octaveOffset * 12;
+  return ROOT_FREQUENCY_HZ * Math.pow(2, semitones / 12);
 }

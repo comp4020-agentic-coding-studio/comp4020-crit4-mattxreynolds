@@ -1,13 +1,10 @@
 import { MAX_HOLD_SECONDS, MIN_HOLD_SECONDS, STEREO_SPREAD } from "./ambient-config";
 import { AmbientScheduler } from "./ambient-scheduler";
-import { ambientPanPosition } from "./ambient-synthesis";
+import { ambientPanPosition, pickAmbientPitch } from "./ambient-synthesis";
 import { spawnAmbientVoice } from "./ambient-voice";
 
-// Pitch is still a placeholder — task 14 (pitch integration) replaces it.
-// Every bloom is already audible, correctly shaped, and spatially placed,
-// just not yet musically varied.
 function triggerBloom(): void {
-  const frequencyHz = 440;
+  const frequencyHz = pickAmbientPitch();
   const pan = ambientPanPosition(STEREO_SPREAD);
   const holdSeconds = MIN_HOLD_SECONDS + Math.random() * (MAX_HOLD_SECONDS - MIN_HOLD_SECONDS);
   spawnAmbientVoice(frequencyHz, pan, holdSeconds);
