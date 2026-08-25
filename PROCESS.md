@@ -83,3 +83,15 @@ green check is not a substitute for that curation.
 
 Images aren't checked: whether one renders is visible the moment you look. Open
 this file on GitHub and look at it before you ship.
+
+## Draft notes (curate into "moments that mattered" before shipping)
+
+- Task 1: `spec/crit-4.test.ts`'s "makes sound live via the Web Audio API"
+  check scans shipped `.js` files for `AudioContext`, but Astro/Vite inlines
+  built scripts under 4kb straight into the HTML (reusing `assetsInlineLimit`,
+  meant for images) instead of emitting a `.js` file — so a correct,
+  synthesized-audio implementation silently vanished from the check's view
+  rather than failing it. Fixed at the config level (`assetsInlineLimit: 0`
+  in `astro.config.ts`) rather than widening the test's file scan, so "shipped
+  JS" keeps meaning a real asset for the rest of the build.
+  [`cbfb7c2`](https://github.com/comp4020-agentic-coding-studio/comp4020-crit4-mattxreynolds/commit/cbfb7c2)
