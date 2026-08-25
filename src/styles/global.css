@@ -214,13 +214,21 @@ body.pre-first-gesture .pad {
 }
 
 /* REC / Clear / Random groove read as one quiet utility cluster, not three
-   separate buttons competing with Play/Stop. */
+   separate buttons competing with Play/Stop — but REC is a stateful toggle
+   (like Play/Stop and Ambient), not a one-shot action like Clear/Random
+   groove, so it keeps its own accent color at rest rather than blending
+   into the other two until it's already armed. */
 #transport #rec,
 #transport #clear,
 #transport #random-groove {
   padding: 0.45rem 0.9rem;
   font-size: 0.9rem;
   color: var(--text-dim);
+}
+
+#transport #rec {
+  color: var(--color-rec);
+  border-color: color-mix(in srgb, var(--color-rec) 45%, var(--border));
 }
 
 #rec[aria-pressed="true"] {
