@@ -27,7 +27,7 @@ _(empty)_
 
 ## In progress
 
-18. Boost step-grid contrast — see Polish for scope.
+19. Add surface depth — see Polish for scope.
 
 ## Blocked
 
@@ -56,6 +56,7 @@ _(empty)_
 15. Style the BPM range input — 04e90b2
 16. Rebalance the transport bar at wide viewports — 845e6df
 17. Differentiate REC from Clear / Random groove — ce53feb
+18. Boost step-grid contrast — 9b1f191
 
 ## Polish
 
@@ -63,18 +64,6 @@ Scope for this pass: desktop (1920×1080) only, visual/CSS only — no layout
 structure or DOM order changes (grid-above-pads from `cbad5d7` stands).
 Phone (390×844) still needs a look before ship, but that's a separate pass,
 not folded into this one.
-
-18. **Boost step-grid contrast.** `--bg-step` and `--bg-elevated` sit one
-    shade apart, so off steps barely register against the grid's own
-    container — at a glance it reads as a dark slab with faint seams
-    rather than a legible 4×16 grid.
-    - Done when: individual off steps are clearly distinguishable from the
-      grid container background at a glance, at both idle and mid-loop
-      (`.step--current` outline still reads clearly against the new
-      contrast).
-    - Acceptance: verified visually in `agent-browser`; `--bg-step` (or
-      `.step`'s border/background) adjusted, other tokens untouched unless
-      needed.
 
 19. **Add surface depth.** The page is currently flat — no shadows,
     gradients, or elevation anywhere except the pad-invite glow and hover
