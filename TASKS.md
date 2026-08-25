@@ -27,7 +27,7 @@ _(empty)_
 
 ## In progress
 
-17. Differentiate REC from Clear / Random groove — see Polish for scope.
+18. Boost step-grid contrast — see Polish for scope.
 
 ## Blocked
 
@@ -55,6 +55,7 @@ _(empty)_
     further ambient work.
 15. Style the BPM range input — 04e90b2
 16. Rebalance the transport bar at wide viewports — 845e6df
+17. Differentiate REC from Clear / Random groove — ce53feb
 
 ## Polish
 
@@ -62,16 +63,6 @@ Scope for this pass: desktop (1920×1080) only, visual/CSS only — no layout
 structure or DOM order changes (grid-above-pads from `cbad5d7` stands).
 Phone (390×844) still needs a look before ship, but that's a separate pass,
 not folded into this one.
-
-17. **Differentiate REC from Clear / Random groove.** All three currently
-    share the same dim, bordered box, so REC — a stateful, toggleable
-    action — doesn't read as different from the two one-shot utility
-    buttons until it's already armed.
-    - Done when: REC is visually distinguishable from Clear/Random groove
-      in its resting (unarmed) state, without competing with Play/Stop for
-      top billing.
-    - Acceptance: verified visually in `agent-browser`; `aria-pressed`
-      wiring untouched.
 
 18. **Boost step-grid contrast.** `--bg-step` and `--bg-elevated` sit one
     shade apart, so off steps barely register against the grid's own
