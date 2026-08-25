@@ -73,7 +73,7 @@ _(empty)_
 4. Click-to-toggle step editing — 6736ac7
 5. Preset grooves + random-groove button — c7e4bd5
 6. Live recording into the grid — 7e563cc
-7. Ambient layer — PENDING_COMMIT
+7. Ambient layer — 4e9675e
 
 ## Polish
 
