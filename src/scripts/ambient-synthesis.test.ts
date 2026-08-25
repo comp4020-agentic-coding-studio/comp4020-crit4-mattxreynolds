@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { envelopeSchedule, fmModulatorGainHz, semitonesToCents } from "./ambient-synthesis";
+import { envelopeSchedule, fmModulatorGainHz, randomIntervalSeconds, semitonesToCents } from "./ambient-synthesis";
 
 describe("envelopeSchedule", () => {
   it("lays out attack -> hold -> release end times relative to the start", () => {
@@ -35,5 +35,19 @@ describe("fmModulatorGainHz", () => {
   it("scales the modulation depth linearly with index", () => {
     expect(fmModulatorGainHz(200, 1)).toBeCloseTo(200);
     expect(fmModulatorGainHz(200, 2)).toBeCloseTo(400);
+  });
+});
+
+describe("randomIntervalSeconds", () => {
+  it("returns the minimum when the source returns 0", () => {
+    expect(randomIntervalSeconds(4, 12, () => 0)).toBe(4);
+  });
+
+  it("returns just under the maximum when the source returns just under 1", () => {
+    expect(randomIntervalSeconds(4, 12, () => 0.999999)).toBeCloseTo(12, 4);
+  });
+
+  it("scales linearly between the bounds", () => {
+    expect(randomIntervalSeconds(4, 12, () => 0.5)).toBeCloseTo(8);
   });
 });
