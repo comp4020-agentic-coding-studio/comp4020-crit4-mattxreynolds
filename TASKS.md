@@ -16,15 +16,6 @@ something a test can't see.
 
 ## Backlog
 
-1. **Web Audio foundation + page skeleton.** One `AudioContext` + master
-   `GainNode`, resumed lazily on first user gesture anywhere in the UI. Clear
-   the starter page content and lay down the real page structure (nav, one
-   `h1`, containers for pads / grid / ambient control, no functionality yet).
-   - Done when: `pnpm check` is green except the two crit-4 spec assertions
-     (still correctly red — no pads or recording exist yet).
-   - Acceptance: an `AudioContext` exists in the bundled JS; nothing plays
-     automatically on load; the page still passes all invariants.
-
 2. **Drum pads.** Implement the four synthesized voices (kick/snare/hi-hat/
    perc per `PLAN.md`'s synthesis spec) and wire them to four pad buttons,
    each triggerable by pointer, touch, and a keyboard key (A/S/D/F).
@@ -143,7 +134,7 @@ _(empty)_
 
 ## Done
 
-_(empty)_
+1. Web Audio foundation + page skeleton — 4a54f3e
 
 ## Polish
 
