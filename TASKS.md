@@ -16,20 +16,6 @@ something a test can't see.
 
 ## Backlog
 
-3. **Sequencer clock + grid state + transport.** A lookahead scheduler at
-   16 steps and an adjustable BPM (default 120, range ~60–180, live
-   range/number input the scheduler reads every tick), a shared grid data
-   model (4 rows × 16 steps), Play/Stop wired to the scheduler, a visual
-   playhead synced to the current step, and a Clear button. Seed the grid
-   empty — no editing yet.
-   - Done when: pressing Play loops audibly and visibly in time; changing
-     BPM mid-loop audibly changes tempo without needing to stop first; Stop
-     halts and resets the playhead; Clear empties the grid.
-   - Acceptance: pure unit tests for the step-timing math (given elapsed
-     time/BPM, which step is current, at more than one BPM value) and the
-     grid helpers (create empty, clear); verified by ear that the loop
-     doesn't drift or stutter at either end of the BPM range.
-
 4. **Click-to-toggle step editing.** Every grid cell is a real toggle button
    that flips that step on/off in the shared grid state, whether the
    transport is running or stopped.
@@ -115,7 +101,19 @@ something a test can't see.
 
 ## In progress
 
-_(empty — WIP limit 1)_
+3. **Sequencer clock + grid state + transport.** A lookahead scheduler at
+   16 steps and an adjustable BPM (default 120, range ~60–180, live
+   range/number input the scheduler reads every tick), a shared grid data
+   model (4 rows × 16 steps), Play/Stop wired to the scheduler, a visual
+   playhead synced to the current step, and a Clear button. Seed the grid
+   empty — no editing yet.
+   - Done when: pressing Play loops audibly and visibly in time; changing
+     BPM mid-loop audibly changes tempo without needing to stop first; Stop
+     halts and resets the playhead; Clear empties the grid.
+   - Acceptance: pure unit tests for the step-timing math (given elapsed
+     time/BPM, which step is current, at more than one BPM value) and the
+     grid helpers (create empty, clear); verified by ear that the loop
+     doesn't drift or stutter at either end of the BPM range.
 
 ## Blocked
 

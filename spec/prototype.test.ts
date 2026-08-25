@@ -54,3 +54,51 @@ describe("drum pads (task 2)", () => {
     expect(new Set(keys)).toEqual(new Set(["A", "S", "D", "F"]));
   });
 });
+
+describe("transport + grid (task 3)", () => {
+  it("has a labeled Play/Stop control", () => {
+    const playStop = home.querySelector("#play-stop");
+    expect(playStop, "no #play-stop control").toBeTruthy();
+    expect(playStop?.tagName).toBe("BUTTON");
+    expect(playStop?.textContent?.trim()).toBeTruthy();
+  });
+
+  it("has a labeled Clear control", () => {
+    const clear = home.querySelector("#clear");
+    expect(clear, "no #clear control").toBeTruthy();
+    expect(clear?.tagName).toBe("BUTTON");
+    expect(clear?.textContent?.trim()).toBeTruthy();
+  });
+
+  it("has a BPM input defaulting to 120, ranged ~60-180", () => {
+    const bpm = home.querySelector("#bpm");
+    expect(bpm, "no #bpm control").toBeTruthy();
+    expect(["INPUT"]).toContain(bpm?.tagName);
+    expect((bpm as HTMLInputElement).value).toBe("120");
+    expect(Number((bpm as HTMLInputElement).min)).toBeLessThanOrEqual(60);
+    expect(Number((bpm as HTMLInputElement).max)).toBeGreaterThanOrEqual(180);
+  });
+
+  it("labels the BPM input for assistive tech", () => {
+    const bpm = home.querySelector("#bpm");
+    const id = bpm?.getAttribute("id");
+    const label = home.querySelector(`label[for="${id}"]`);
+    expect(label?.textContent?.trim(), "BPM input has no associated <label>").toBeTruthy();
+  });
+
+  it("seeds a 4-row × 16-step grid, empty", () => {
+    const rows = [...home.querySelectorAll("#grid .grid-row")];
+    expect(rows).toHaveLength(4);
+
+    for (const row of rows) {
+      const steps = [...row.querySelectorAll(".step")];
+      expect(steps).toHaveLength(16);
+    }
+  });
+
+  it("gives every grid row a pad identity for later toggle wiring", () => {
+    const rows = [...home.querySelectorAll("#grid .grid-row")];
+    const padIds = rows.map((row) => row.getAttribute("data-pad"));
+    expect(new Set(padIds)).toEqual(new Set(["kick", "snare", "hihat", "perc"]));
+  });
+});
