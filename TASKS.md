@@ -31,18 +31,6 @@ something a test can't see.
      above the ambient bar has padding so nothing sits underneath it; every
      control is reachable and usable at both sizes; invariants stay green.
 
-9. **Accessibility & keyboard pass.** `aria-label`/`aria-pressed` on every
-   toggle-style control (pads, grid steps, REC, ambient on/off), visible
-   focus states, sane tab order, labeled BPM and random-groove controls.
-   Confirm the spec's "playable with whatever is at hand" line is generously
-   true, not just technically true.
-   - Done when: a keyboard-only run-through can trigger pads, toggle grid
-     steps, adjust BPM, load a random groove, and start/stop/clear/record/
-     toggle-ambient — everything except (intentionally) the ambient drag
-     control itself.
-   - Acceptance: manual keyboard-only pass in the browser; existing
-     "reachable without a mouse" spec assertion stays green.
-
 10. **First-impression & copy pass.** Real title, meta description, and
     `og:image`/card update per `CLAUDE.md`; delete `spec/starter.test.ts` and
     its `data-testid="intro"` element; make sure the opening screen — with no
@@ -75,6 +63,7 @@ _(empty)_
 6. Live recording into the grid — 7e563cc
 7. Ambient layer — 4e9675e
 8. Responsive layout pass — 2a04b81
+9. Accessibility & keyboard pass — 6f12f4b
 
 ## Polish
 

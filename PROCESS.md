@@ -109,3 +109,17 @@ this file on GitHub and look at it before you ship.
   never needs to be sticky) — less clever, but the label genuinely can't
   detach because it isn't part of the scrolling box at all.
   [`2a04b81`](https://github.com/comp4020-agentic-coding-studio/comp4020-crit4-mattxreynolds/commit/2a04b81)
+- Task 9: hand-written aria-label/aria-pressed markup (added incrementally
+  across tasks 2–7) all read correctly to jsdom-based tests, but an
+  `agent-browser a11y` (axe) audit against the live page still found a real
+  violation those tests couldn't see: `#ambient-xy`'s `aria-label` sat on a
+  bare `<div>` with no `role`, which is implicit `role="generic"` — a role
+  that doesn't accept an author-supplied name at all, so the label was
+  invisible to assistive tech despite passing every DOM-structure check.
+  Fixed by adding `role="group"` (not a more specific interactive role like
+  `slider`, since this control's keyboard operability is still an
+  intentional stretch goal — a role that implies operability it doesn't
+  have would be worse than the generic one). Worth running the automated
+  axe audit at least once per accessibility pass, not just hand-checking
+  attributes against a mental model of ARIA rules.
+  [`6f12f4b`](https://github.com/comp4020-agentic-coding-studio/comp4020-crit4-mattxreynolds/commit/6f12f4b)
