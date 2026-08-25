@@ -218,3 +218,45 @@ describe("accessibility & keyboard pass (task 9)", () => {
     expect(role).not.toBe("generic");
   });
 });
+
+describe("first-impression & copy pass (task 10)", () => {
+  it("removes the starter intro paragraph", () => {
+    expect(
+      home.querySelector('[data-testid="intro"]'),
+      "the starter's data-testid=\"intro\" paragraph is still on the page",
+    ).toBeFalsy();
+  });
+
+  it("has a real title, not the starter placeholder", () => {
+    expect(home.title.trim()).not.toBe("COMP4020 prototype");
+  });
+
+  it("has a real meta description, not the starter placeholder", () => {
+    const description = home
+      .querySelector('meta[name="description"]')
+      ?.getAttribute("content")
+      ?.trim();
+    expect(description?.startsWith("Replace this")).toBe(false);
+  });
+
+  it("names the instrument in its top-level heading", () => {
+    const h1 = home.querySelector("h1");
+    expect(h1?.textContent?.trim()).not.toBe("COMP4020 prototype");
+    expect(h1?.textContent?.trim()).toBeTruthy();
+  });
+
+  it("gives no instructions on the opening screen — the pads have to invite the first tap on their own", () => {
+    // Any visible body copy telling the player what to do would contradict
+    // the "no instructions" requirement — the intro paragraph was the only
+    // place that lived, and it's gone (checked above). This just confirms
+    // main's only text nodes are inherent to the instrument's own controls
+    // (labels, headings), not added prose.
+    const bodyParagraphs = [...home.querySelectorAll("main > p")];
+    for (const p of bodyParagraphs) {
+      expect(
+        /click|tap|press|drag|drum|record|play a|start by/i.test(p.textContent ?? ""),
+        `"${p.textContent}" reads as an instruction`,
+      ).toBe(false);
+    }
+  });
+});
