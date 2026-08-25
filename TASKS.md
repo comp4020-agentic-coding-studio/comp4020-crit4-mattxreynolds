@@ -16,14 +16,7 @@ something a test can't see.
 
 ## Backlog
 
-14. **Pitch integration.** Pure `pickAmbientPitch`-style function drawing
-    from the pentatonic collection decided in `PLAN.md`, respecting the
-    configured octave range; wired into the scheduler so each event picks
-    its own note. **Done when:** the pitch-selection function is
-    unit-tested (always returns a collection member, respects octave
-    bounds); `pnpm check` green. **Stop here** — per the brief, this is the
-    checkpoint for listening feedback before any further ambient work
-    (visual polish, a second control, a second preset).
+_(empty)_
 
 ### Stretch (only if the above is solid with time to spare)
 
@@ -34,13 +27,14 @@ something a test can't see.
 
 ## In progress
 
-13. **Static per-event stereo field.** Pure, unit-tested pan-position
-    function (sine/cosine-derived per the Pd reference) called once per
-    event to give that bloom its own fixed position — never a sweep, never
-    shared across events. Wire it into the voice spawned by the scheduler.
-    **Done when:** the pan function is unit-tested for boundedness and for
-    producing varied (not clustered) positions across repeated calls;
-    spatial convincingness itself is a listening judgment, not a test.
+14. **Pitch integration.** Pure `pickAmbientPitch`-style function drawing
+    from the pentatonic collection decided in `PLAN.md`, respecting the
+    configured octave range; wired into the scheduler so each event picks
+    its own note. **Done when:** the pitch-selection function is
+    unit-tested (always returns a collection member, respects octave
+    bounds); `pnpm check` green. **Stop here** — per the brief, this is the
+    checkpoint for listening feedback before any further ambient work
+    (visual polish, a second control, a second preset).
 
 ## Blocked
 
@@ -62,6 +56,7 @@ _(empty)_
 11. Ambient bloom voice + manual audition (replaces task 7's continuous
     drone) — a7d39fb
 12. Generative scheduling, wired to the Ambient toggle — 91634d2
+13. Static per-event stereo field — d06cb73
 
 ## Polish
 
