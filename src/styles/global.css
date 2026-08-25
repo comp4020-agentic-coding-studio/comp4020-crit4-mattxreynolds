@@ -1,18 +1,52 @@
+:root {
+  color-scheme: dark;
+
+  --bg: #0d0d12;
+  --bg-elevated: #17171f;
+  --bg-step: #1f1f2b;
+  --text: #f0f0f5;
+  --text-dim: #9a9aa8;
+  --border: #2c2c3a;
+  --focus: #5da9ff;
+
+  --color-kick: #ff6b4a;
+  --color-snare: #ffd166;
+  --color-hihat: #4ecdc4;
+  --color-perc: #c77dff;
+  --color-play: #4ade80;
+  --color-rec: #ff4d6d;
+  --color-ambient: #5da9ff;
+
+  --ambient-bar-height: 4.5rem;
+}
+
+* {
+  box-sizing: border-box;
+}
+
 body {
   margin: 0;
-  padding: 2rem;
+  padding: 1.5rem 2rem;
   font-family: system-ui, sans-serif;
   line-height: 1.6;
-  color: #1a1a1a;
+  background: var(--bg);
+  color: var(--text);
 }
 
 main {
   max-width: 75rem;
   margin: 0 auto;
+  padding-bottom: calc(var(--ambient-bar-height) + 1.5rem);
 }
 
 a {
-  color: #0b5fff;
+  color: var(--color-ambient);
+}
+
+code {
+  background: var(--bg-elevated);
+  padding: 0.1rem 0.35rem;
+  border-radius: 0.25rem;
 }
 
 #pads {
@@ -28,13 +62,27 @@ a {
   align-items: center;
   gap: 0.25rem;
   padding: 1.5rem 0.5rem;
-  border: 2px solid #1a1a1a;
+  border: 2px solid var(--pad-color, var(--border));
   border-radius: 0.5rem;
-  background: #f4f4f4;
+  background: var(--bg-elevated);
+  color: var(--text);
   font: inherit;
   cursor: pointer;
   touch-action: manipulation;
   user-select: none;
+}
+
+.pad[data-pad="kick"] {
+  --pad-color: var(--color-kick);
+}
+.pad[data-pad="snare"] {
+  --pad-color: var(--color-snare);
+}
+.pad[data-pad="hihat"] {
+  --pad-color: var(--color-hihat);
+}
+.pad[data-pad="perc"] {
+  --pad-color: var(--color-perc);
 }
 
 .pad-name {
@@ -43,22 +91,22 @@ a {
 
 .pad-key {
   font-size: 0.85rem;
-  color: #555;
-  border: 1px solid #999;
+  color: var(--pad-color, var(--text-dim));
+  border: 1px solid var(--pad-color, var(--border));
   border-radius: 0.25rem;
   padding: 0 0.4rem;
 }
 
 .pad--pressed {
-  background: #0b5fff;
-  border-color: #0b5fff;
-  color: #fff;
+  background: var(--pad-color, var(--color-ambient));
+  border-color: var(--pad-color, var(--color-ambient));
+  color: #0d0d12;
   transform: scale(0.96);
 }
 
 .pad--pressed .pad-key {
-  color: #fff;
-  border-color: #fff;
+  color: #0d0d12;
+  border-color: #0d0d12;
 }
 
 #transport {
@@ -71,29 +119,31 @@ a {
 
 #transport button {
   padding: 0.5rem 1rem;
-  border: 2px solid #1a1a1a;
+  border: 2px solid var(--border);
   border-radius: 0.5rem;
-  background: #f4f4f4;
+  background: var(--bg-elevated);
+  color: var(--text);
   font: inherit;
   cursor: pointer;
 }
 
 #play-stop[aria-pressed="true"] {
-  background: #0b5fff;
-  border-color: #0b5fff;
-  color: #fff;
+  background: var(--color-play);
+  border-color: var(--color-play);
+  color: #0d0d12;
 }
 
 #rec[aria-pressed="true"] {
-  background: #d81e1e;
-  border-color: #d81e1e;
-  color: #fff;
+  background: var(--color-rec);
+  border-color: var(--color-rec);
+  color: #0d0d12;
 }
 
 .bpm-control {
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  color: var(--text);
 }
 
 #grid {
@@ -101,7 +151,6 @@ a {
   flex-direction: column;
   gap: 0.35rem;
   margin: 1.5rem 0;
-  overflow-x: auto;
 }
 
 .grid-row {
@@ -110,11 +159,26 @@ a {
   gap: 0.5rem;
 }
 
+.grid-row[data-pad="kick"] {
+  --pad-color: var(--color-kick);
+}
+.grid-row[data-pad="snare"] {
+  --pad-color: var(--color-snare);
+}
+.grid-row[data-pad="hihat"] {
+  --pad-color: var(--color-hihat);
+}
+.grid-row[data-pad="perc"] {
+  --pad-color: var(--color-perc);
+}
+
 .grid-row-label {
   width: 4rem;
   flex-shrink: 0;
   font-size: 0.85rem;
   font-weight: 600;
+  color: var(--pad-color, var(--text));
+  padding-right: 0.5rem;
 }
 
 .grid-steps {
@@ -122,66 +186,75 @@ a {
   display: grid;
   grid-template-columns: repeat(16, minmax(1.5rem, 1fr));
   gap: 0.25rem;
+  overflow-x: auto;
 }
 
 .step {
   width: 100%;
   aspect-ratio: 1;
   padding: 0;
-  border: 1px solid #999;
+  border: 1px solid var(--border);
   border-radius: 0.2rem;
-  background: #f4f4f4;
+  background: var(--bg-step);
   cursor: pointer;
   touch-action: manipulation;
 }
 
 .step--on {
-  background: #1a1a1a;
-  border-color: #1a1a1a;
+  background: var(--pad-color, var(--text));
+  border-color: var(--pad-color, var(--text));
 }
 
 .step--current {
-  box-shadow: 0 0 0 2px #0b5fff inset;
+  box-shadow: 0 0 0 2px var(--focus) inset;
 }
 
 #ambient {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 10;
   display: flex;
   align-items: center;
   gap: 1rem;
   flex-wrap: wrap;
-  margin: 1.5rem auto;
-  max-width: 75rem;
-  padding: 0 2rem;
+  margin: 0;
+  padding: 0.75rem 2rem calc(0.75rem + env(safe-area-inset-bottom));
+  background: var(--bg-elevated);
+  border-top: 1px solid var(--border);
 }
 
 #ambient-toggle {
   padding: 0.5rem 1rem;
-  border: 2px solid #1a1a1a;
+  border: 2px solid var(--color-ambient);
   border-radius: 0.5rem;
-  background: #f4f4f4;
+  background: var(--bg);
+  color: var(--text);
   font: inherit;
   cursor: pointer;
 }
 
 #ambient-toggle[aria-pressed="true"] {
-  background: #6b21d8;
-  border-color: #6b21d8;
-  color: #fff;
+  background: var(--color-ambient);
+  border-color: var(--color-ambient);
+  color: #0d0d12;
 }
 
 .ambient-xy {
   position: relative;
   width: 8rem;
   height: 8rem;
-  border: 2px solid #1a1a1a;
+  flex-shrink: 0;
+  border: 2px solid var(--color-ambient);
   border-radius: 0.5rem;
-  background: #f4f4f4;
+  background: var(--bg);
   touch-action: none;
   cursor: grab;
 }
 
 .ambient-xy:focus-visible {
-  outline: 3px solid #0b5fff;
+  outline: 3px solid var(--focus);
   outline-offset: 2px;
 }
 
@@ -190,7 +263,7 @@ a {
   width: 0.9rem;
   height: 0.9rem;
   border-radius: 50%;
-  background: #6b21d8;
+  background: var(--color-ambient);
   transform: translate(-50%, -50%);
   pointer-events: none;
 }
@@ -199,4 +272,57 @@ a {
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  color: var(--text);
+}
+
+@media (max-width: 600px) {
+  body {
+    padding: 1rem;
+  }
+
+  h1 {
+    margin: 0 0 0.5rem;
+    font-size: 1.75rem;
+  }
+
+  main > p {
+    margin: 0 0 1rem;
+  }
+
+  #transport {
+    margin: 1rem 0;
+  }
+
+  #pads {
+    grid-template-columns: repeat(2, 1fr);
+    margin: 1rem 0;
+  }
+
+  .pad {
+    padding: 1rem 0.5rem;
+  }
+
+  main {
+    padding-bottom: calc(var(--ambient-bar-height) + 4rem);
+  }
+
+  .grid-steps {
+    display: flex;
+    gap: 0.35rem;
+  }
+
+  .step {
+    width: 2.25rem;
+    flex: 0 0 2.25rem;
+  }
+
+  #ambient {
+    justify-content: center;
+    padding: 0.75rem 1rem calc(0.75rem + env(safe-area-inset-bottom));
+  }
+
+  .ambient-xy {
+    width: 6.5rem;
+    height: 6.5rem;
+  }
 }
