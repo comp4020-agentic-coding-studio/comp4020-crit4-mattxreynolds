@@ -27,7 +27,7 @@ _(empty)_
 
 ## In progress
 
-19. Add surface depth — see Polish for scope.
+_(empty)_
 
 ## Blocked
 
@@ -57,21 +57,9 @@ _(empty)_
 16. Rebalance the transport bar at wide viewports — 845e6df
 17. Differentiate REC from Clear / Random groove — ce53feb
 18. Boost step-grid contrast — 9b1f191
+19. Add surface depth — 081b658
 
 ## Polish
 
-Scope for this pass: desktop (1920×1080) only, visual/CSS only — no layout
-structure or DOM order changes (grid-above-pads from `cbad5d7` stands).
-Phone (390×844) still needs a look before ship, but that's a separate pass,
-not folded into this one.
-
-19. **Add surface depth.** The page is currently flat — no shadows,
-    gradients, or elevation anywhere except the pad-invite glow and hover
-    states. Add restrained depth to key surfaces (pads, grid container,
-    transport buttons) so the page reads as an instrument with presence
-    rather than a set of flat rectangles.
-    - Done when: pads/grid/transport have a subtle sense of elevation
-      (e.g. soft shadow or gradient) that doesn't fight the existing hover/
-      pressed states or the pad-invite animation.
-    - Acceptance: verified visually in `agent-browser` at 1920×1080;
-      `prefers-reduced-motion`/`hover: hover` guards stay intact.
+_(empty — desktop visual pass complete; phone (390×844) polish is a separate
+pass, not yet started)_
