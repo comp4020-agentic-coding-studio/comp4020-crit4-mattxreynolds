@@ -7,7 +7,7 @@ body {
 }
 
 main {
-  max-width: 40rem;
+  max-width: 75rem;
   margin: 0 auto;
 }
 
@@ -112,14 +112,15 @@ a {
 }
 
 .grid-steps {
+  flex: 1;
   display: grid;
-  grid-template-columns: repeat(16, 1.5rem);
+  grid-template-columns: repeat(16, minmax(1.5rem, 1fr));
   gap: 0.25rem;
 }
 
 .step {
-  width: 1.5rem;
-  height: 1.5rem;
+  width: 100%;
+  aspect-ratio: 1;
   border: 1px solid #999;
   border-radius: 0.2rem;
   background: #f4f4f4;
