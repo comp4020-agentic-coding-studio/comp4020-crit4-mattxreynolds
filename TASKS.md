@@ -16,14 +16,6 @@ something a test can't see.
 
 ## Backlog
 
-4. **Click-to-toggle step editing.** Every grid cell is a real toggle button
-   that flips that step on/off in the shared grid state, whether the
-   transport is running or stopped.
-   - Done when: toggling a cell changes what plays on the next pass, and
-     works via mouse, touch, and keyboard (native button + Enter/Space).
-   - Acceptance: unit test for the toggle helper; visual state (filled vs.
-     empty) matches the underlying data.
-
 5. **Preset grooves + random-groove button.** A small built-in set (four)
    of contrasting preset patterns, and a transport-bar button that picks one
    at random and loads it into the grid (overwriting the current pattern, no
@@ -112,6 +104,7 @@ _(empty)_
 1. Web Audio foundation + page skeleton — 4a54f3e
 2. Drum pads — 1da27e4
 3. Sequencer clock + grid state + transport — bf0f8f1
+4. Click-to-toggle step editing — 6736ac7
 
 ## Polish
 
