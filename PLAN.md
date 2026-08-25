@@ -75,11 +75,12 @@ Clear button resets the grid to empty.
 
 **Preset grooves.** A small built-in set (four is enough) of contrasting
 preset patterns. A "random groove" button in the transport bar picks one
-(uniformly, may repeat) and loads it into the grid, overwriting whatever's
-there — no confirmation prompt, consistent with the no-fail-state stance:
-overwriting is a fast way to start over, not a mistake to guard against.
-Loading a preset does not start playback by itself; Play still needs a
-press, same as any other change to the grid.
+uniformly at random (excluding whichever preset it loaded last, so pressing
+it twice in a row always changes the pattern) and loads it into the grid,
+overwriting whatever's there — no confirmation prompt, consistent with the
+no-fail-state stance: overwriting is a fast way to start over, not a mistake
+to guard against. Loading a preset does not start playback by itself; Play
+still needs a press, same as any other change to the grid.
 
 **Drum synthesis** (oscillator/noise + envelope through a `GainNode`, per
 MDN's simple-synth example):
