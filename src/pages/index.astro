@@ -27,6 +27,7 @@ import { PAD_DEFS } from "../scripts/pad-defs";
         <input type="range" id="bpm" min="60" max="180" step="1" value="120" />
         <output id="bpm-value" for="bpm">120</output>
       </span>
+      <button type="button" id="ambient-toggle" aria-pressed="false">Ambient: Off</button>
     </section>
 
     <section id="pads" aria-label="Drum pads">
@@ -70,8 +71,5 @@ import { PAD_DEFS } from "../scripts/pad-defs";
       }
     </section>
   </main>
-  <section id="ambient" aria-label="Ambient layer controls">
-    <button type="button" id="ambient-toggle" aria-pressed="false">Ambient: Off</button>
-  </section>
   <script src="../scripts/main.ts"></script>
 </Layout>

@@ -31,8 +31,8 @@ describe("page skeleton (task 1)", () => {
     expect(home.querySelector("#grid")).toBeTruthy();
   });
 
-  it("has a container for the ambient layer controls", () => {
-    expect(home.querySelector("#ambient")).toBeTruthy();
+  it("has an ambient layer control, alongside the other transport controls", () => {
+    expect(home.querySelector("#transport #ambient-toggle")).toBeTruthy();
   });
 });
 

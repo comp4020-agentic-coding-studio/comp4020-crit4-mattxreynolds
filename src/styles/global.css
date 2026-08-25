@@ -16,8 +16,6 @@
   --color-play: #4ade80;
   --color-rec: #ff4d6d;
   --color-ambient: #5da9ff;
-
-  --ambient-bar-height: 4.5rem;
 }
 
 * {
@@ -36,7 +34,6 @@ body {
 main {
   max-width: 75rem;
   margin: 0 auto;
-  padding-bottom: calc(var(--ambient-bar-height) + 1.5rem);
 }
 
 a {
@@ -242,30 +239,8 @@ body.pre-first-gesture .pad {
   box-shadow: 0 0 0 2px var(--focus) inset;
 }
 
-#ambient {
-  position: fixed;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 10;
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  flex-wrap: wrap;
-  margin: 0;
-  padding: 0.75rem 2rem calc(0.75rem + env(safe-area-inset-bottom));
-  background: var(--bg-elevated);
-  border-top: 1px solid var(--border);
-}
-
 #ambient-toggle {
-  padding: 0.5rem 1rem;
-  border: 2px solid var(--color-ambient);
-  border-radius: 0.5rem;
-  background: var(--bg);
-  color: var(--text);
-  font: inherit;
-  cursor: pointer;
+  border-color: var(--color-ambient);
 }
 
 #ambient-toggle[aria-pressed="true"] {
@@ -307,10 +282,6 @@ input:focus-visible {
     padding: 1rem 0.5rem;
   }
 
-  main {
-    padding-bottom: calc(var(--ambient-bar-height) + 4rem);
-  }
-
   .grid-steps {
     display: flex;
     gap: 0.35rem;
@@ -319,10 +290,5 @@ input:focus-visible {
   .step {
     width: 2.25rem;
     flex: 0 0 2.25rem;
-  }
-
-  #ambient {
-    justify-content: center;
-    padding: 0.75rem 1rem calc(0.75rem + env(safe-area-inset-bottom));
   }
 }
