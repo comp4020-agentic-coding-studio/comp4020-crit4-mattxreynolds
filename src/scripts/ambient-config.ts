@@ -33,5 +33,16 @@ export const AMBIENT_MASTER_LEVEL = 0.18;
 /** How far a per-event stereo position can sit from center (task 13). 1 = full L/R extremes. */
 export const STEREO_SPREAD = 0.7;
 
-/** Octaves either side of the root a chosen pitch can be shifted into (task 14). */
+/** How many octaves upward from the root a chosen pitch can land in. */
 export const OCTAVE_RANGE = 2;
+
+/** Root of the ambient pitch set. A3 — sits an octave below the 440 Hz
+ * placeholder tone used during tasks 11-13, so the top of the octave
+ * range lands in a comparable register. */
+export const ROOT_FREQUENCY_HZ = 220;
+
+/** A minor pentatonic scale degrees, in semitones above the root. Chosen
+ * per PLAN.md: the sequencer's voices are all unpitched, so there's no
+ * existing scale to inherit — any two notes from a pentatonic collection
+ * sound consonant together with no voice-leading logic required. */
+export const PENTATONIC_INTERVALS = [0, 3, 5, 7, 10];
