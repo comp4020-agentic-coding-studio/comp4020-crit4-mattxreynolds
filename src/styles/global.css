@@ -49,6 +49,11 @@ code {
   border-radius: 0.25rem;
 }
 
+.tagline {
+  color: var(--text-dim);
+  margin: 0 0 1.5rem;
+}
+
 #pads {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -74,15 +79,43 @@ code {
 
 .pad[data-pad="kick"] {
   --pad-color: var(--color-kick);
+  animation-delay: 0s;
 }
 .pad[data-pad="snare"] {
   --pad-color: var(--color-snare);
+  animation-delay: 0.2s;
 }
 .pad[data-pad="hihat"] {
   --pad-color: var(--color-hihat);
+  animation-delay: 0.4s;
 }
 .pad[data-pad="perc"] {
   --pad-color: var(--color-perc);
+  animation-delay: 0.6s;
+}
+
+/* Before the first tap anywhere, nothing has played yet (autoplay policy
+   forbids it regardless) — a slow glow is the only thing inviting that first
+   gesture, so it has to carry the whole "what is this" job on its own. Body
+   loses this class in audio.ts's first-gesture handler. */
+body.pre-first-gesture .pad {
+  animation: pad-invite 2.4s ease-in-out infinite;
+}
+
+@keyframes pad-invite {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 transparent;
+  }
+  50% {
+    box-shadow: 0 0 8px 4px color-mix(in srgb, var(--pad-color, var(--color-ambient)) 55%, transparent);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body.pre-first-gesture .pad {
+    animation: none;
+  }
 }
 
 .pad-name {

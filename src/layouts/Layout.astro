@@ -27,7 +27,7 @@ const { title, description, card = "./card.png" } = Astro.props;
     <meta property="og:image" content={card} />
     <meta name="twitter:card" content="summary_large_image" />
   </head>
-  <body>
+  <body class="pre-first-gesture">
     <slot />
   </body>
 </html>

@@ -11,6 +11,9 @@ masterGain.connect(audioContext.destination);
 
 const resume = once(() => {
   void audioContext.resume();
+  // Drops the pad-invite glow (see global.css) once the player has made
+  // their first gesture anywhere in the UI — it's done its job.
+  document.body.classList.remove("pre-first-gesture");
 });
 
 for (const type of ["pointerdown", "keydown"] as const) {
