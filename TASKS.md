@@ -16,13 +16,6 @@ something a test can't see.
 
 ## Backlog
 
-13. **Static per-event stereo field.** Pure, unit-tested pan-position
-    function (sine/cosine-derived per the Pd reference) called once per
-    event to give that bloom its own fixed position — never a sweep, never
-    shared across events. Wire it into the voice spawned by the scheduler.
-    **Done when:** the pan function is unit-tested for boundedness and for
-    producing varied (not clustered) positions across repeated calls;
-    spatial convincingness itself is a listening judgment, not a test.
 14. **Pitch integration.** Pure `pickAmbientPitch`-style function drawing
     from the pentatonic collection decided in `PLAN.md`, respecting the
     configured octave range; wired into the scheduler so each event picks
@@ -41,21 +34,13 @@ something a test can't see.
 
 ## In progress
 
-12. **Generative scheduling, wired to the Ambient toggle.** An
-    `AmbientScheduler`-style class (same shape as `Scheduler`, but
-    real-time/`setTimeout`-based, not audio-clock-locked — event spacing is
-    seconds, not sixteenth notes) triggers a bloom after a random interval
-    within the configured min/max bounds, unlocked from the sequencer's
-    grid/tempo entirely. Wire `#ambient-toggle`'s click handler: on starts
-    the scheduler (and updates `aria-pressed`/label like the old toggle
-    did), off stops it — future events only, never hard-cutting a bloom
-    already in flight.
-    **Done when:** unit tests (fake timers) show every interval stays
-    within the configured bounds, toggling on twice never creates a second
-    concurrent schedule, toggling off leaves zero pending timers, and
-    re-enabling schedules fresh rather than resuming stale state; manual
-    check in `agent-browser` that toggling repeatedly and leaving the tab
-    open doesn't accumulate anything unbounded.
+13. **Static per-event stereo field.** Pure, unit-tested pan-position
+    function (sine/cosine-derived per the Pd reference) called once per
+    event to give that bloom its own fixed position — never a sweep, never
+    shared across events. Wire it into the voice spawned by the scheduler.
+    **Done when:** the pan function is unit-tested for boundedness and for
+    producing varied (not clustered) positions across repeated calls;
+    spatial convincingness itself is a listening judgment, not a test.
 
 ## Blocked
 
@@ -76,6 +61,7 @@ _(empty)_
 10. First-impression & copy pass — 6d71273
 11. Ambient bloom voice + manual audition (replaces task 7's continuous
     drone) — a7d39fb
+12. Generative scheduling, wired to the Ambient toggle — 91634d2
 
 ## Polish
 
