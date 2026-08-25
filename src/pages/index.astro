@@ -6,7 +6,7 @@ import { PAD_DEFS } from "../scripts/pad-defs";
 
 <Layout
   title="Driftbeat — synth drum machine"
-  description="Driftbeat: a four-pad synth drum machine with a 16-step sequencer and an ambient layer whose stereo pan never sits still."
+  description="Driftbeat: a four-pad synth drum machine with a 16-step sequencer and a sparse ambient layer of tones that bloom and fade."
 >
   <header>
     <nav aria-label="Primary">
@@ -72,19 +72,6 @@ import { PAD_DEFS } from "../scripts/pad-defs";
   </main>
   <section id="ambient" aria-label="Ambient layer controls">
     <button type="button" id="ambient-toggle" aria-pressed="false">Ambient: Off</button>
-    <div
-      id="ambient-xy"
-      class="ambient-xy"
-      role="group"
-      tabindex="0"
-      aria-label="Ambient sweep speed and brightness — drag to adjust"
-    >
-      <div class="ambient-xy-thumb" aria-hidden="true"></div>
-    </div>
-    <span class="ambient-intensity">
-      <label for="ambient-intensity">Intensity</label>
-      <input type="range" id="ambient-intensity" min="0" max="100" step="1" value="50" />
-    </span>
   </section>
   <script src="../scripts/main.ts"></script>
 </Layout>

@@ -274,40 +274,10 @@ body.pre-first-gesture .pad {
   color: #0d0d12;
 }
 
-.ambient-xy {
-  position: relative;
-  width: 8rem;
-  height: 8rem;
-  flex-shrink: 0;
-  border: 2px solid var(--color-ambient);
-  border-radius: 0.5rem;
-  background: var(--bg);
-  touch-action: none;
-  cursor: grab;
-}
-
 button:focus-visible,
-input:focus-visible,
-.ambient-xy:focus-visible {
+input:focus-visible {
   outline: 3px solid var(--focus);
   outline-offset: 2px;
-}
-
-.ambient-xy-thumb {
-  position: absolute;
-  width: 0.9rem;
-  height: 0.9rem;
-  border-radius: 50%;
-  background: var(--color-ambient);
-  transform: translate(-50%, -50%);
-  pointer-events: none;
-}
-
-.ambient-intensity {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  color: var(--text);
 }
 
 @media (max-width: 600px) {
@@ -354,10 +324,5 @@ input:focus-visible,
   #ambient {
     justify-content: center;
     padding: 0.75rem 1rem calc(0.75rem + env(safe-area-inset-bottom));
-  }
-
-  .ambient-xy {
-    width: 6.5rem;
-    height: 6.5rem;
   }
 }
