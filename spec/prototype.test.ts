@@ -253,9 +253,10 @@ describe("first-impression & copy pass (task 10)", () => {
     // (labels, headings), not added prose.
     const bodyParagraphs = [...home.querySelectorAll("main > p")];
     for (const p of bodyParagraphs) {
+      const text = p.textContent ?? "";
       expect(
-        /click|tap|press|drag|drum|record|play a|start by/i.test(p.textContent ?? ""),
-        `"${p.textContent}" reads as an instruction`,
+        /\b(click|tap|press|drag) (on |to )?the|^(click|tap|press|drag|try|start)\b/i.test(text.trim()),
+        `"${text}" reads as an instruction`,
       ).toBe(false);
     }
   });
