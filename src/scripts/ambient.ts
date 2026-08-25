@@ -8,14 +8,16 @@ import { mapCutoff, mapDepth, mapLevel, mapRate } from "./ambient-mapping";
 // drives panner.pan permanently, so the sweep is already moving the instant
 // the layer becomes audible rather than starting from a parked position.
 const DETUNE_CENTS = 7;
-const BASE_FREQ_HZ = 110;
+const BASE_FREQ_HZ = 220;
 
+// Triangle rather than sawtooth — far fewer harmonics, so the pad reads as
+// light/airy rather than a buzzy bass drone even at the same base frequency.
 const oscA = audioContext.createOscillator();
-oscA.type = "sawtooth";
+oscA.type = "triangle";
 oscA.frequency.value = BASE_FREQ_HZ;
 
 const oscB = audioContext.createOscillator();
-oscB.type = "sawtooth";
+oscB.type = "triangle";
 oscB.frequency.value = BASE_FREQ_HZ;
 oscB.detune.value = DETUNE_CENTS;
 
